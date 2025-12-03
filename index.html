@@ -1333,114 +1333,197 @@
     .history-list {
       display: flex;
       flex-direction: column;
-      gap: var(--space-md);
+      gap: var(--space-sm);
     }
 
-    .history-card {
+    /* Card เล็ก */
+    .history-card-mini {
       background: #fff;
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-md);
       padding: var(--space-md);
       box-shadow: var(--shadow-sm);
-    }
-
-    .history-header {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: var(--space-md);
-      padding-bottom: var(--space-sm);
-      border-bottom: 1px solid var(--gray-100);
+      align-items: center;
+      gap: var(--space-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
     }
 
-    .history-time {
+    .history-card-mini:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .history-card-mini:active {
+      transform: translateY(0);
+    }
+
+    .mini-status {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .mini-status.complete {
+      background: var(--success-light);
+    }
+
+    .mini-status.excess {
+      background: var(--warning-light);
+    }
+
+    .mini-status.shortage {
+      background: var(--danger-light);
+    }
+
+    .mini-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mini-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mini-sub {
       font-size: 0.8rem;
       color: var(--gray-500);
+      margin-top: 2px;
     }
 
-    .history-status {
-      font-size: 0.75rem;
+    .mini-arrow {
+      color: var(--gray-400);
+      font-size: 1.2rem;
+    }
+
+    /* Detail Modal */
+    .detail-container {
+      background: #fff;
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 400px;
+      max-height: 85vh;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) var(--space-lg);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .detail-header h3 {
+      font-size: 1.1rem;
       font-weight: 600;
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
     }
 
-    .history-status.complete {
+    .detail-content {
+      padding: var(--space-lg);
+      overflow-y: auto;
+      max-height: calc(85vh - 60px);
+    }
+
+    .detail-status {
+      text-align: center;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .detail-status.complete {
       background: var(--success-light);
       color: var(--success);
     }
 
-    .history-status.excess {
+    .detail-status.excess {
       background: var(--warning-light);
       color: var(--warning);
     }
 
-    .history-status.shortage {
+    .detail-status.shortage {
       background: var(--danger-light);
       color: var(--danger);
     }
 
-    .history-content {
+    .detail-status-icon {
+      font-size: 2.5rem;
+    }
+
+    .detail-status-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: var(--space-xs);
+    }
+
+    .detail-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: var(--space-sm);
+      gap: var(--space-md);
     }
 
-    .history-item {
-      display: flex;
-      flex-direction: column;
+    .detail-item {
+      padding: var(--space-sm);
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
     }
 
-    .history-item.full {
+    .detail-item.full {
       grid-column: 1 / -1;
     }
 
-    .history-label {
+    .detail-label {
       font-size: 0.7rem;
       color: var(--gray-400);
-      margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .history-value {
-      font-size: 0.9rem;
+    .detail-value {
+      font-size: 0.95rem;
       font-weight: 500;
       color: var(--gray-800);
+      margin-top: 2px;
+      word-break: break-word;
     }
 
-    .history-photo {
-      margin-top: var(--space-md);
-      padding-top: var(--space-md);
-      border-top: 1px solid var(--gray-100);
+    .detail-photo {
+      margin-top: var(--space-lg);
     }
 
-    .history-photo-btn {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      padding: var(--space-sm) var(--space-md);
-      background: var(--primary-bg);
-      color: var(--primary);
-      border: none;
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 500;
+    .detail-photo img {
+      width: 100%;
+      border-radius: var(--radius-md);
       cursor: pointer;
-      transition: background var(--transition-fast);
+      transition: transform var(--transition-fast);
     }
 
-    .history-photo-btn:hover {
-      background: var(--primary-light);
+    .detail-photo img:hover {
+      transform: scale(1.02);
     }
 
-    .history-inspector {
-      margin-top: var(--space-md);
-      padding-top: var(--space-sm);
+    .detail-footer {
+      margin-top: var(--space-lg);
+      padding-top: var(--space-md);
       border-top: 1px dashed var(--gray-200);
       display: flex;
       align-items: center;
       gap: var(--space-sm);
-      font-size: 0.85rem;
       color: var(--gray-500);
+      font-size: 0.85rem;
     }
 
     /* Photo Modal */
@@ -1830,6 +1913,17 @@
     </div>
   </div>
 
+  <!-- Detail Modal -->
+  <div id="modalDetail" class="modal hidden">
+    <div class="detail-container">
+      <div class="detail-header">
+        <h3>รายละเอียด</h3>
+        <button id="btnCloseDetail" class="btn-close">✕</button>
+      </div>
+      <div id="detailContent" class="detail-content"></div>
+    </div>
+  </div>
+
   <!-- Photo Modal -->
   <div id="modalPhoto" class="modal hidden">
     <div class="photo-modal-container">
@@ -1876,7 +1970,8 @@
       selectedExcess: {},
       stats: { today: 0, complete: 0, excess: 0, shortage: 0 },
       qrScanner: null,
-      photoData: null, // เก็บ Base64 ของรูปภาพ
+      photoData: null,
+      historyRecords: [], // เก็บรายการประวัติ
     };
 
     /**
@@ -1921,6 +2016,7 @@
       $('btnBackHistory').onclick = () => showPage('home');
       $('btnRefreshHistory').onclick = loadHistory;
       $('btnClosePhoto').onclick = () => hideModal('modalPhoto');
+      $('btnCloseDetail').onclick = () => hideModal('modalDetail');
 
       // Scanner
       $$('.btn-scan').forEach(btn => {
@@ -2382,23 +2478,37 @@
       }));
     }
 
-    function loadStats() {
+    async function loadStats() {
+      // ดึงสถิติจาก API
       try {
-        const saved = localStorage.getItem('crateInspectorStats');
-        if (saved) {
-          const data = JSON.parse(saved);
-          if (data.date === new Date().toDateString()) {
-            state.stats = {
-              today: data.today || 0,
-              complete: data.complete || 0,
-              excess: data.excess || 0,
-              shortage: data.shortage || 0
-            };
-          }
+        const response = await fetch(`${API_URL}?action=stats`);
+        const result = await response.json();
+        
+        if (result.success && result.stats) {
+          state.stats = result.stats;
+          updateStatsDisplay();
         }
       } catch (e) {
         console.error('Error loading stats:', e);
+        // ถ้าดึง API ไม่ได้ ใช้ localStorage
+        try {
+          const saved = localStorage.getItem('crateInspectorStats');
+          if (saved) {
+            const data = JSON.parse(saved);
+            if (data.date === new Date().toDateString()) {
+              state.stats = {
+                today: data.today || 0,
+                complete: data.complete || 0,
+                excess: data.excess || 0,
+                shortage: data.shortage || 0
+              };
+            }
+          }
+        } catch (e2) {
+          console.error('Error loading local stats:', e2);
+        }
       }
+      updateStatsDisplay();
     }
 
     /**
@@ -2476,68 +2586,134 @@
     }
 
     function renderHistory(records) {
-      const html = records.map(record => {
+      // เก็บ records ไว้ใน state เพื่อใช้ตอนกดดูรายละเอียด
+      state.historyRecords = records;
+
+      const html = records.map((record, index) => {
         // กำหนดสถานะ
         let statusClass = '';
-        let statusText = '';
+        let statusIcon = '📋';
         if (record.statusComplete) {
           statusClass = 'complete';
-          statusText = 'ครบ';
+          statusIcon = '✅';
         } else if (record.statusExcess) {
           statusClass = 'excess';
-          statusText = 'เกิน';
+          statusIcon = '➕';
         } else if (record.statusShortage) {
           statusClass = 'shortage';
-          statusText = 'ขาด';
+          statusIcon = '❌';
         }
 
-        // รูปภาพ
-        const photoHtml = record.photoUrl ? `
-          <div class="history-photo">
-            <button class="history-photo-btn" onclick="openPhoto('${record.photoUrl}')">
-              📷 ดูรูปภาพ
-            </button>
-          </div>
-        ` : '';
-
         return `
-          <div class="history-card">
-            <div class="history-header">
-              <span class="history-time">🕐 ${record.timestamp}</span>
-              ${statusText ? `<span class="history-status ${statusClass}">${statusText}</span>` : ''}
+          <div class="history-card-mini" onclick="showDetail(${index})">
+            <div class="mini-status ${statusClass}">${statusIcon}</div>
+            <div class="mini-info">
+              <div class="mini-title">🚛 ${record.truckId || '-'} | 📄 ${record.trfDoc || '-'}</div>
+              <div class="mini-sub">🕐 ${record.timestamp}</div>
             </div>
-            <div class="history-content">
-              <div class="history-item">
-                <span class="history-label">รหัสรถ</span>
-                <span class="history-value">🚛 ${record.truckId || '-'}</span>
-              </div>
-              <div class="history-item">
-                <span class="history-label">เอกสาร TRF</span>
-                <span class="history-value">📄 ${record.trfDoc || '-'}</span>
-              </div>
-              <div class="history-item">
-                <span class="history-label">ลังตั้งต้น</span>
-                <span class="history-value">📦 ${record.initialCrates || 0}</span>
-              </div>
-              <div class="history-item">
-                <span class="history-label">ลังที่รับ</span>
-                <span class="history-value">📦 ${record.receivedCrates || 0}</span>
-              </div>
-              <div class="history-item full">
-                <span class="history-label">เลข WT</span>
-                <span class="history-value">🔢 ${record.wtNumber || '-'}</span>
-              </div>
-            </div>
-            ${photoHtml}
-            <div class="history-inspector">
-              <span>✍️ ผู้ตรวจ:</span>
-              <strong>${record.inspectorName || '-'}</strong>
-            </div>
+            <div class="mini-arrow">›</div>
           </div>
         `;
       }).join('');
 
       $('historyList').innerHTML = html;
+    }
+
+    function showDetail(index) {
+      const record = state.historyRecords[index];
+      if (!record) return;
+
+      // กำหนดสถานะ
+      let statusClass = '';
+      let statusIcon = '📋';
+      let statusText = '-';
+      if (record.statusComplete) {
+        statusClass = 'complete';
+        statusIcon = '✅';
+        statusText = 'ลังครบถ้วน';
+      } else if (record.statusExcess) {
+        statusClass = 'excess';
+        statusIcon = '➕';
+        statusText = 'ลังเกิน';
+      } else if (record.statusShortage) {
+        statusClass = 'shortage';
+        statusIcon = '❌';
+        statusText = 'ลังขาด';
+      }
+
+      // รูปภาพ
+      const photoHtml = record.photoUrl ? `
+        <div class="detail-photo">
+          <img src="${record.photoUrl}" alt="Photo" onclick="openPhoto('${record.photoUrl}')">
+        </div>
+      ` : '';
+
+      // รายละเอียดเพิ่มเติม (ขาด/เกิน)
+      let extraInfo = '';
+      if (record.shortageNumbers) {
+        extraInfo = `
+          <div class="detail-item full">
+            <div class="detail-label">รายละเอียดที่ขาด</div>
+            <div class="detail-value">${record.shortageNumbers}</div>
+          </div>
+        `;
+      } else if (record.excessDetails) {
+        extraInfo = `
+          <div class="detail-item full">
+            <div class="detail-label">รายละเอียดที่เกิน</div>
+            <div class="detail-value">${record.excessDetails}</div>
+          </div>
+        `;
+      }
+
+      const html = `
+        <div class="detail-status ${statusClass}">
+          <div class="detail-status-icon">${statusIcon}</div>
+          <div class="detail-status-text">${statusText}</div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-item full">
+            <div class="detail-label">วันที่-เวลา</div>
+            <div class="detail-value">🕐 ${record.timestamp}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">รหัสรถ</div>
+            <div class="detail-value">🚛 ${record.truckId || '-'}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">เอกสาร TRF</div>
+            <div class="detail-value">📄 ${record.trfDoc || '-'}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">ลังตั้งต้น</div>
+            <div class="detail-value">📦 ${record.initialCrates || 0}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">ลังที่รับ</div>
+            <div class="detail-value">📦 ${record.receivedCrates || 0}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">ผลต่าง</div>
+            <div class="detail-value">${record.difference > 0 ? '+' : ''}${record.difference || 0}</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">เลข WT</div>
+            <div class="detail-value">🔢 ${record.wtNumber || '-'}</div>
+          </div>
+          ${extraInfo}
+        </div>
+
+        ${photoHtml}
+
+        <div class="detail-footer">
+          <span>✍️ ผู้ตรวจ:</span>
+          <strong>${record.inspectorName || '-'}</strong>
+        </div>
+      `;
+
+      $('detailContent').innerHTML = html;
+      showModal('modalDetail');
     }
 
     function openPhoto(url) {
