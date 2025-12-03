@@ -242,6 +242,37 @@
       stroke-width: 2;
     }
 
+    .btn-history {
+      width: 100%;
+      padding: var(--space-md) var(--space-lg);
+      margin-top: var(--space-sm);
+      background: #fff;
+      color: var(--primary);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      transition: all var(--transition-fast);
+    }
+
+    .btn-history:hover {
+      background: var(--primary-bg);
+    }
+
+    .btn-history svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
     /* Stats Grid */
     .stats-grid {
       display: grid;
@@ -1264,6 +1295,185 @@
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .excess-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
+    /* ==================== History Page ==================== */
+    .page-history {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--gray-100);
+    }
+
+    .history-body {
+      padding: var(--space-md);
+    }
+
+    .history-loading {
+      text-align: center;
+      padding: var(--space-2xl);
+      color: var(--gray-500);
+    }
+
+    .history-loading .saving-spinner {
+      margin: 0 auto var(--space-md);
+      border-color: var(--gray-200);
+      border-top-color: var(--primary);
+    }
+
+    .history-empty {
+      text-align: center;
+      padding: var(--space-2xl);
+      color: var(--gray-500);
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .history-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .history-time {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    .history-status {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .history-status.complete {
+      background: var(--success-light);
+      color: var(--success);
+    }
+
+    .history-status.excess {
+      background: var(--warning-light);
+      color: var(--warning);
+    }
+
+    .history-status.shortage {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .history-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+    }
+
+    .history-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .history-item.full {
+      grid-column: 1 / -1;
+    }
+
+    .history-label {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      margin-bottom: 2px;
+    }
+
+    .history-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-800);
+    }
+
+    .history-photo {
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .history-photo-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--primary-bg);
+      color: var(--primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+
+    .history-photo-btn:hover {
+      background: var(--primary-light);
+    }
+
+    .history-inspector {
+      margin-top: var(--space-md);
+      padding-top: var(--space-sm);
+      border-top: 1px dashed var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 0.85rem;
+      color: var(--gray-500);
+    }
+
+    /* Photo Modal */
+    .photo-modal-container {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    .photo-modal-container img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .btn-close-photo {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      width: 40px;
+      height: 40px;
+      background: #fff;
+      color: var(--gray-700);
+      border: none;
+      border-radius: var(--radius-full);
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -1295,6 +1505,16 @@
             <circle cx="12" cy="13" r="4"/>
           </svg>
           เริ่มตรวจสอบ
+        </button>
+        <button id="btnHistory" class="btn-history">
+          <svg viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          ดูรายการที่บันทึก
         </button>
       </div>
 
@@ -1579,6 +1799,45 @@
     <p class="saving-text">กำลังบันทึกข้อมูล...</p>
   </div>
 
+  <!-- History Page -->
+  <div id="pageHistory" class="page-history hidden">
+    <header class="form-header">
+      <button id="btnBackHistory" class="btn-icon" aria-label="กลับ">
+        <svg viewBox="0 0 24 24">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+      </button>
+      <h1 class="form-header-title">รายการที่บันทึก</h1>
+      <button id="btnRefreshHistory" class="btn-icon" aria-label="รีเฟรช">
+        <svg viewBox="0 0 24 24">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="history-body">
+      <div id="historyLoading" class="history-loading">
+        <div class="saving-spinner"></div>
+        <p>กำลังโหลดข้อมูล...</p>
+      </div>
+      <div id="historyEmpty" class="history-empty hidden">
+        <div class="empty-icon">📋</div>
+        <p>ยังไม่มีรายการที่บันทึก</p>
+      </div>
+      <div id="historyList" class="history-list hidden"></div>
+    </div>
+  </div>
+
+  <!-- Photo Modal -->
+  <div id="modalPhoto" class="modal hidden">
+    <div class="photo-modal-container">
+      <button id="btnClosePhoto" class="btn-close-photo">✕</button>
+      <img id="modalPhotoImg" src="" alt="Photo">
+    </div>
+  </div>
+
   <!-- Toast Container -->
   <div id="toastContainer"></div>
 
@@ -1590,7 +1849,7 @@
      * ==================== CONFIG ====================
      * เปลี่ยน API_URL เป็น URL ของ Apps Script ที่ Deploy แล้ว
      */
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyCU9P5YRGJnjyK8VklRd3MV5k14HuPTSG-CzHS3le9-bvSdnjoQMawTAmNPZ5icFs43A/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbz6yXDk9KDWXmN8ZaT6G2KbZliOQVZP9sMMSn1lKsxjzbNVB7Lc2uDpbcAXyZQM8jCFQg/exec';
     // ตัวอย่าง: 'https://script.google.com/macros/s/AKfycbx.../exec'
 
     /**
@@ -1654,6 +1913,15 @@
       $('btnClear').onclick = clearFormPartial;
       $('btnSubmit').onclick = handleSubmit;
 
+      // History
+      $('btnHistory').onclick = () => {
+        showPage('history');
+        loadHistory();
+      };
+      $('btnBackHistory').onclick = () => showPage('home');
+      $('btnRefreshHistory').onclick = loadHistory;
+      $('btnClosePhoto').onclick = () => hideModal('modalPhoto');
+
       // Scanner
       $$('.btn-scan').forEach(btn => {
         btn.onclick = () => openScanner(btn.dataset.target);
@@ -1701,6 +1969,7 @@
     function showPage(page) {
       $('pageHome').classList.toggle('hidden', page !== 'home');
       $('pageForm').classList.toggle('hidden', page !== 'form');
+      $('pageHistory').classList.toggle('hidden', page !== 'history');
       if (page === 'home') updateStatsDisplay();
     }
 
@@ -2177,6 +2446,103 @@
         toast.classList.add('fade-out');
         setTimeout(() => toast.remove(), 300);
       }, 3000);
+    }
+
+    /**
+     * ==================== HISTORY ====================
+     */
+    async function loadHistory() {
+      $('historyLoading').classList.remove('hidden');
+      $('historyEmpty').classList.add('hidden');
+      $('historyList').classList.add('hidden');
+
+      try {
+        const response = await fetch(`${API_URL}?action=history`);
+        const result = await response.json();
+
+        $('historyLoading').classList.add('hidden');
+
+        if (result.success && result.records && result.records.length > 0) {
+          renderHistory(result.records);
+          $('historyList').classList.remove('hidden');
+        } else {
+          $('historyEmpty').classList.remove('hidden');
+        }
+      } catch (err) {
+        $('historyLoading').classList.add('hidden');
+        $('historyEmpty').classList.remove('hidden');
+        showToast('โหลดข้อมูลไม่สำเร็จ', 'error');
+      }
+    }
+
+    function renderHistory(records) {
+      const html = records.map(record => {
+        // กำหนดสถานะ
+        let statusClass = '';
+        let statusText = '';
+        if (record.statusComplete) {
+          statusClass = 'complete';
+          statusText = 'ครบ';
+        } else if (record.statusExcess) {
+          statusClass = 'excess';
+          statusText = 'เกิน';
+        } else if (record.statusShortage) {
+          statusClass = 'shortage';
+          statusText = 'ขาด';
+        }
+
+        // รูปภาพ
+        const photoHtml = record.photoUrl ? `
+          <div class="history-photo">
+            <button class="history-photo-btn" onclick="openPhoto('${record.photoUrl}')">
+              📷 ดูรูปภาพ
+            </button>
+          </div>
+        ` : '';
+
+        return `
+          <div class="history-card">
+            <div class="history-header">
+              <span class="history-time">🕐 ${record.timestamp}</span>
+              ${statusText ? `<span class="history-status ${statusClass}">${statusText}</span>` : ''}
+            </div>
+            <div class="history-content">
+              <div class="history-item">
+                <span class="history-label">รหัสรถ</span>
+                <span class="history-value">🚛 ${record.truckId || '-'}</span>
+              </div>
+              <div class="history-item">
+                <span class="history-label">เอกสาร TRF</span>
+                <span class="history-value">📄 ${record.trfDoc || '-'}</span>
+              </div>
+              <div class="history-item">
+                <span class="history-label">ลังตั้งต้น</span>
+                <span class="history-value">📦 ${record.initialCrates || 0}</span>
+              </div>
+              <div class="history-item">
+                <span class="history-label">ลังที่รับ</span>
+                <span class="history-value">📦 ${record.receivedCrates || 0}</span>
+              </div>
+              <div class="history-item full">
+                <span class="history-label">เลข WT</span>
+                <span class="history-value">🔢 ${record.wtNumber || '-'}</span>
+              </div>
+            </div>
+            ${photoHtml}
+            <div class="history-inspector">
+              <span>✍️ ผู้ตรวจ:</span>
+              <strong>${record.inspectorName || '-'}</strong>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      $('historyList').innerHTML = html;
+    }
+
+    function openPhoto(url) {
+      $('modalPhotoImg').src = url;
+      showModal('modalPhoto');
     }
   </script>
 </body>
