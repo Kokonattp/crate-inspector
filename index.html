@@ -311,6 +311,14 @@
       font-weight: 500;
     }
 
+    /* Stats loading indicator */
+    .stats-loading {
+      text-align: center;
+      padding: var(--space-sm);
+      color: var(--gray-400);
+      font-size: 0.8rem;
+    }
+
     .home-footer {
       text-align: center;
       padding-top: var(--space-lg);
@@ -1603,26 +1611,26 @@
 
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-value" id="statToday">0</div>
+          <div class="stat-value" id="statToday">-</div>
           <div class="stat-label">ตรวจวันนี้</div>
         </div>
         <div class="stat-card success">
-          <div class="stat-value" id="statComplete">0</div>
+          <div class="stat-value" id="statComplete">-</div>
           <div class="stat-label">ครบถ้วน</div>
         </div>
         <div class="stat-card warning">
-          <div class="stat-value" id="statExcess">0</div>
+          <div class="stat-value" id="statExcess">-</div>
           <div class="stat-label">เกิน</div>
         </div>
         <div class="stat-card danger">
-          <div class="stat-value" id="statShortage">0</div>
+          <div class="stat-value" id="statShortage">-</div>
           <div class="stat-label">ขาด</div>
         </div>
       </div>
     </main>
 
     <footer class="home-footer">
-      <p>เวอร์ชัน 1.0.0</p>
+      <p>เวอร์ชัน 1.0.1 (แก้ไขแล้ว)</p>
     </footer>
   </div>
 
@@ -1790,7 +1798,7 @@
           <span class="badge-optional">ไม่บังคับ</span>
         </div>
         <div class="photo-upload">
-          <input type="file" id="inputPhoto" accept="image/*" class="photo-input">
+          <input type="file" id="inputPhoto" accept="image/*" capture="environment" class="photo-input">
           <label for="inputPhoto" class="photo-label">
             <div class="photo-icon">📷</div>
             <div class="photo-text">ถ่ายรูป หรือ เลือกจากอัลบั้ม</div>
@@ -1943,8 +1951,7 @@
      * ==================== CONFIG ====================
      * เปลี่ยน API_URL เป็น URL ของ Apps Script ที่ Deploy แล้ว
      */
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxDQATfooRGrFrx2N8jWzf2Kljy33wORbGdQc6wOy8yv0rjM7pEz3Y9XyLR-2f7oA5KrQ/exec';
-    // ตัวอย่าง: 'https://script.google.com/macros/s/AKfycbx.../exec'
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyZY-Lw7cNDScb7AxUr-0LdmUG9-2hUqVB9xGd0Wf66o61MOGxxXx1j1y1Q-KJeOlZ7oQ/exec';
 
     /**
      * ==================== DATA ====================
@@ -1971,7 +1978,7 @@
       stats: { today: 0, complete: 0, excess: 0, shortage: 0 },
       qrScanner: null,
       photoData: null,
-      historyRecords: [], // เก็บรายการประวัติ
+      historyRecords: [],
     };
 
     /**
@@ -2066,7 +2073,9 @@
       $('pageHome').classList.toggle('hidden', page !== 'home');
       $('pageForm').classList.toggle('hidden', page !== 'form');
       $('pageHistory').classList.toggle('hidden', page !== 'history');
-      if (page === 'home') updateStatsDisplay();
+      if (page === 'home') {
+        loadStats(); // ✅ โหลดสถิติใหม่ทุกครั้งที่กลับหน้าแรก
+      }
     }
 
     /**
@@ -2186,8 +2195,36 @@
     }
 
     /**
-     * ==================== QR SCANNER ====================
+     * ==================== ✅ FORMAT วันที่ภาษาไทย ====================
      */
+    function formatThaiDateTime(date) {
+      if (!date) date = new Date();
+      
+      // ถ้าเป็น string ให้แปลงเป็น Date object
+      if (typeof date === 'string') {
+        // ตรวจสอบว่าเป็น format ไทยแล้วหรือยัง
+        if (date.includes('/') && !date.includes('T')) {
+          return date; // ส่งคืนเลยถ้าเป็น format ไทยแล้ว
+        }
+        
+        // แปลง ISO format หรือ format อื่น
+        date = new Date(date);
+      }
+      
+      // ตรวจสอบว่าเป็น Date object ที่ valid
+      if (isNaN(date.getTime())) {
+        return 'วันที่ไม่ถูกต้อง';
+      }
+      
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear() + 543; // พ.ศ.
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      
+      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    }
 
     /**
      * ==================== PHOTO UPLOAD ====================
@@ -2361,12 +2398,12 @@
 
       showLoading();
 
-      const timestamp = new Date().toLocaleString('th-TH');
+      // ✅ ส่ง timestamp ไปให้ server จัดการ format
       const initial = parseInt($('inputInitial').value) || 0;
       const received = parseInt($('inputReceived').value) || 0;
 
       const record = {
-        timestamp,
+        // timestamp จะถูก format โดย server
         user: $('inputUser').value.trim(),
         truckId: $('inputTruck').value.trim(),
         trfDoc: $('inputTrf').value.trim(),
@@ -2405,8 +2442,19 @@
         hideLoading();
 
         if (result.success) {
-          updateStats(state.selectedStatus);
+          // ✅ อัปเดตสถิติใน local state
+          state.stats.today++;
+          if (state.selectedStatus === 'ครบ') state.stats.complete++;
+          else if (state.selectedStatus === 'เกิน') state.stats.excess++;
+          else if (state.selectedStatus === 'ขาด') state.stats.shortage++;
+          updateStatsDisplay();
+          
           showSuccess(`ใช้เวลา ${elapsed} มิลลิวินาที`);
+          
+          // แสดง URL รูปภาพถ้ามี
+          if (result.photoUrl) {
+            console.log('✅ Photo saved:', result.photoUrl);
+          }
         } else {
           throw new Error(result.error || 'เกิดข้อผิดพลาดไม่ทราบสาเหตุ');
         }
@@ -2460,17 +2508,8 @@
     }
 
     /**
-     * ==================== STATS ====================
+     * ==================== ✅ STATS (แก้ไขแล้ว) ====================
      */
-    function updateStats(status) {
-      state.stats.today++;
-      if (status === 'ครบ') state.stats.complete++;
-      else if (status === 'เกิน') state.stats.excess++;
-      else if (status === 'ขาด') state.stats.shortage++;
-      saveStats();
-      updateStatsDisplay();
-    }
-
     function updateStatsDisplay() {
       $('statToday').textContent = state.stats.today;
       $('statComplete').textContent = state.stats.complete;
@@ -2478,45 +2517,38 @@
       $('statShortage').textContent = state.stats.shortage;
     }
 
-    function saveStats() {
-      const today = new Date().toDateString();
-      localStorage.setItem('crateInspectorStats', JSON.stringify({
-        date: today,
-        ...state.stats
-      }));
-    }
-
     async function loadStats() {
-      // ดึงสถิติจาก API
+      // แสดง loading
+      $('statToday').textContent = '-';
+      $('statComplete').textContent = '-';
+      $('statExcess').textContent = '-';
+      $('statShortage').textContent = '-';
+      
       try {
         const response = await fetch(`${API_URL}?action=stats`);
         const result = await response.json();
         
+        console.log('📊 Stats response:', result);
+        
         if (result.success && result.stats) {
-          state.stats = result.stats;
+          state.stats = {
+            today: result.stats.today || 0,
+            complete: result.stats.complete || 0,
+            excess: result.stats.excess || 0,
+            shortage: result.stats.shortage || 0
+          };
+          updateStatsDisplay();
+        } else {
+          // ถ้าไม่มีข้อมูลจาก API ให้แสดง 0
+          state.stats = { today: 0, complete: 0, excess: 0, shortage: 0 };
           updateStatsDisplay();
         }
       } catch (e) {
         console.error('Error loading stats:', e);
-        // ถ้าดึง API ไม่ได้ ใช้ localStorage
-        try {
-          const saved = localStorage.getItem('crateInspectorStats');
-          if (saved) {
-            const data = JSON.parse(saved);
-            if (data.date === new Date().toDateString()) {
-              state.stats = {
-                today: data.today || 0,
-                complete: data.complete || 0,
-                excess: data.excess || 0,
-                shortage: data.shortage || 0
-              };
-            }
-          }
-        } catch (e2) {
-          console.error('Error loading local stats:', e2);
-        }
+        // แสดง 0 ถ้าเกิด error
+        state.stats = { today: 0, complete: 0, excess: 0, shortage: 0 };
+        updateStatsDisplay();
       }
-      updateStatsDisplay();
     }
 
     /**
@@ -2567,7 +2599,7 @@
     }
 
     /**
-     * ==================== HISTORY ====================
+     * ==================== ✅ HISTORY (แก้ไขแล้ว) ====================
      */
     async function loadHistory() {
       $('historyLoading').classList.remove('hidden');
@@ -2612,12 +2644,15 @@
           statusIcon = '❌';
         }
 
+        // ✅ Format วันที่ให้อ่านง่าย
+        const displayDate = formatThaiDateTime(record.timestamp);
+
         return `
           <div class="history-card-mini" onclick="showDetail(${index})">
             <div class="mini-status ${statusClass}">${statusIcon}</div>
             <div class="mini-info">
               <div class="mini-title">🚛 ${record.truckId || '-'} | 📄 ${record.trfDoc || '-'}</div>
-              <div class="mini-sub">🕐 ${record.timestamp}</div>
+              <div class="mini-sub">🕐 ${displayDate}</div>
             </div>
             <div class="mini-arrow">›</div>
           </div>
@@ -2674,6 +2709,9 @@
         `;
       }
 
+      // ✅ Format วันที่
+      const displayDate = formatThaiDateTime(record.timestamp);
+
       const html = `
         <div class="detail-status ${statusClass}">
           <div class="detail-status-icon">${statusIcon}</div>
@@ -2683,7 +2721,7 @@
         <div class="detail-grid">
           <div class="detail-item full">
             <div class="detail-label">วันที่-เวลา</div>
-            <div class="detail-value">🕐 ${record.timestamp}</div>
+            <div class="detail-value">🕐 ${displayDate}</div>
           </div>
           <div class="detail-item">
             <div class="detail-label">รหัสรถ</div>
