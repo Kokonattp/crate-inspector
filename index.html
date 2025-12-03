@@ -380,6 +380,124 @@
       border-radius: var(--radius-full);
     }
 
+    .badge-optional {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      background: var(--gray-200);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    /* Photo Upload */
+    .photo-upload {
+      position: relative;
+    }
+
+    .photo-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      overflow: hidden;
+    }
+
+    .photo-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-xl);
+      background: var(--gray-50);
+      border: 2px dashed var(--gray-300);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .photo-label:hover {
+      border-color: var(--primary);
+      background: var(--primary-bg);
+    }
+
+    .photo-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .photo-text {
+      font-size: 0.9rem;
+      color: var(--gray-500);
+    }
+
+    .photo-preview {
+      position: relative;
+      margin-top: var(--space-md);
+    }
+
+    .photo-preview img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-remove-photo {
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-sm);
+      width: 32px;
+      height: 32px;
+      background: var(--danger);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-full);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+      transition: transform var(--transition-fast);
+    }
+
+    .btn-remove-photo:hover {
+      transform: scale(1.1);
+    }
+
+    .upload-progress {
+      margin-top: var(--space-md);
+      text-align: center;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--gray-200);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin-bottom: var(--space-sm);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border-radius: var(--radius-full);
+      width: 0%;
+      animation: progress 1.5s ease-in-out infinite;
+    }
+
+    @keyframes progress {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+
+    .progress-text {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+    }
+
     /* Input Field */
     .input-text {
       width: 100%;
@@ -1361,6 +1479,32 @@
         <input type="text" id="inputWt" class="input-text input-mono" placeholder="ระบุเลข WT...">
       </section>
 
+      <!-- แนบรูปภาพ -->
+      <section class="form-section">
+        <div class="section-header">
+          <span class="section-icon">📷</span>
+          <span class="section-title">แนบรูปภาพ</span>
+          <span class="badge-optional">ไม่บังคับ</span>
+        </div>
+        <div class="photo-upload">
+          <input type="file" id="inputPhoto" accept="image/*" capture="environment" class="photo-input">
+          <label for="inputPhoto" class="photo-label">
+            <div class="photo-icon">📷</div>
+            <div class="photo-text">ถ่ายรูป หรือ เลือกจากคลัง</div>
+          </label>
+          <div id="photoPreview" class="photo-preview hidden">
+            <img id="previewImg" src="" alt="Preview">
+            <button type="button" id="btnRemovePhoto" class="btn-remove-photo">✕</button>
+          </div>
+        </div>
+        <div id="uploadProgress" class="upload-progress hidden">
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <span class="progress-text">กำลังอัปโหลดรูป...</span>
+        </div>
+      </section>
+
       <!-- ลงชื่อผู้ตรวจ -->
       <section class="form-section">
         <div class="section-header">
@@ -1446,7 +1590,7 @@
      * ==================== CONFIG ====================
      * เปลี่ยน API_URL เป็น URL ของ Apps Script ที่ Deploy แล้ว
      */
-    const API_URL = 'https://script.google.com/macros/s/AKfycbytbSBp2A69C7w-Eetj97tiOJK9KzajC1yreM9wXwPsuLy_4FPIyW2hd9s3BSpEIvlk9Q/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyCU9P5YRGJnjyK8VklRd3MV5k14HuPTSG-CzHS3le9-bvSdnjoQMawTAmNPZ5icFs43A/exec';
     // ตัวอย่าง: 'https://script.google.com/macros/s/AKfycbx.../exec'
 
     /**
@@ -1473,6 +1617,7 @@
       selectedExcess: {},
       stats: { today: 0, complete: 0, excess: 0, shortage: 0 },
       qrScanner: null,
+      photoData: null, // เก็บ Base64 ของรูปภาพ
     };
 
     /**
@@ -1544,6 +1689,10 @@
           }
         };
       });
+
+      // Photo upload
+      $('inputPhoto').addEventListener('change', handlePhotoSelect);
+      $('btnRemovePhoto').onclick = removePhoto;
     }
 
     /**
@@ -1674,6 +1823,75 @@
     /**
      * ==================== QR SCANNER ====================
      */
+
+    /**
+     * ==================== PHOTO UPLOAD ====================
+     */
+    function handlePhotoSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      // ตรวจสอบขนาดไฟล์ (ไม่เกิน 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('รูปภาพใหญ่เกินไป (ไม่เกิน 5MB)', 'error');
+        return;
+      }
+
+      // แปลงเป็น Base64 และย่อขนาด
+      compressImage(file, (base64) => {
+        state.photoData = base64;
+        $('previewImg').src = base64;
+        $('photoPreview').classList.remove('hidden');
+        document.querySelector('.photo-label').classList.add('hidden');
+        showToast('เลือกรูปภาพแล้ว', 'success');
+      });
+    }
+
+    function compressImage(file, callback) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxSize = 1200; // ขนาดสูงสุด
+          let width = img.width;
+          let height = img.height;
+
+          // ย่อขนาดถ้าใหญ่เกินไป
+          if (width > maxSize || height > maxSize) {
+            if (width > height) {
+              height = (height / width) * maxSize;
+              width = maxSize;
+            } else {
+              width = (width / height) * maxSize;
+              height = maxSize;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // แปลงเป็น JPEG คุณภาพ 80%
+          const base64 = canvas.toDataURL('image/jpeg', 0.8);
+          callback(base64);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removePhoto() {
+      state.photoData = null;
+      $('inputPhoto').value = '';
+      $('photoPreview').classList.add('hidden');
+      document.querySelector('.photo-label').classList.remove('hidden');
+    }
+
+    /**
+     * ==================== QR SCANNER FUNCTIONS ====================
+     */
     function openScanner(target) {
       state.scanTarget = target;
       $('scannerTitle').textContent = target === 'truck' ? 'สแกนรหัสรถ' : 'สแกนเอกสาร TRF';
@@ -1796,6 +2014,7 @@
         excessDetails: state.selectedStatus === 'เกิน' ? formatExcessDetails() : '',
         wtNumber: $('inputWt').value.trim(),
         inspectorName: $('inputInspector').value.trim(),
+        photoData: state.photoData || '', // รูปภาพ Base64
       };
 
       try {
@@ -1847,6 +2066,9 @@
       // Reset state
       state.selectedStatus = null;
       state.selectedExcess = {};
+
+      // Reset photo
+      removePhoto();
 
       // Reset UI
       $$('.status-btn').forEach(btn => btn.classList.remove('active'));
