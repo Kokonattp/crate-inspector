@@ -89,6 +89,15 @@
       line-height: 1.6;
     }
 
+    /* ใช้ Font Prompt ทุก Element */
+    input, textarea, button, select, option {
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    input::placeholder, textarea::placeholder {
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
     /* ==================== Utilities ==================== */
     .hidden { display: none !important; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
