@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#6366F1">
-  <meta name="description" content="ระบบสุ่มตรวจลัง - Crate Inspection System">
   <title>ระบบสุ่มตรวจลัง</title>
-  
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -51,19 +48,14 @@
       --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
       --transition-fast: 150ms ease;
       --transition-normal: 250ms ease;
-      --transition-slow: 350ms ease;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
-    html {
-      font-size: 16px;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-font-smoothing: antialiased;
-    }
+    html { font-size: 16px; -webkit-tap-highlight-color: transparent; }
     
     body {
-      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Prompt', sans-serif;
       background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
       color: var(--gray-800);
       min-height: 100vh;
@@ -71,13 +63,10 @@
       line-height: 1.6;
     }
 
-    input, textarea, button, select, option {
-      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
+    input, textarea, button, select { font-family: 'Prompt', sans-serif; }
     .hidden { display: none !important; }
 
-    /* Loading Screen */
+    /* Loading */
     #loading {
       position: fixed;
       inset: 0;
@@ -87,30 +76,14 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      transition: opacity var(--transition-slow), visibility var(--transition-slow);
+      transition: opacity 0.35s, visibility 0.35s;
     }
-    
     #loading.fade-out { opacity: 0; visibility: hidden; }
-    
-    .loader {
-      width: 56px;
-      height: 56px;
-      border: 3px solid rgba(255,255,255,0.2);
-      border-top-color: #fff;
-      border-radius: var(--radius-full);
-      animation: spin 0.8s linear infinite;
-    }
-    
-    .loader-text {
-      color: rgba(255,255,255,0.9);
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-top: var(--space-lg);
-    }
-    
+    .loader { width: 56px; height: 56px; border: 3px solid rgba(255,255,255,0.2); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .loader-text { color: rgba(255,255,255,0.9); font-size: 0.95rem; font-weight: 500; margin-top: var(--space-lg); }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Home Page */
+    /* Home Page - ไม่มีสถิติ */
     .page-home {
       min-height: 100vh;
       min-height: 100dvh;
@@ -121,11 +94,11 @@
       padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom));
     }
 
-    .home-header { text-align: center; padding: var(--space-2xl) 0; }
+    .home-header { text-align: center; padding: var(--space-2xl) 0; flex: 1; display: flex; flex-direction: column; justify-content: center; }
 
     .home-logo {
-      width: 88px;
-      height: 88px;
+      width: 100px;
+      height: 100px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       border-radius: var(--radius-xl);
       display: flex;
@@ -135,33 +108,24 @@
       box-shadow: var(--shadow-lg), 0 0 40px rgba(99,102,241,0.3);
       animation: float 3s ease-in-out infinite;
     }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    .home-logo svg { width: 44px; height: 44px; stroke: #fff; fill: none; stroke-width: 1.5; }
-
-    .home-title { font-size: 1.75rem; font-weight: 700; color: var(--gray-900); margin-bottom: var(--space-xs); }
-    .home-subtitle { font-size: 0.95rem; color: var(--gray-500); font-weight: 400; }
-    .home-main { flex: 1; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .home-logo svg { width: 50px; height: 50px; stroke: #fff; fill: none; stroke-width: 1.5; }
+    .home-title { font-size: 1.85rem; font-weight: 700; color: var(--gray-900); margin-bottom: var(--space-xs); }
+    .home-subtitle { font-size: 1rem; color: var(--gray-500); font-weight: 400; }
 
     .card-start {
       background: #fff;
       border-radius: var(--radius-lg);
-      padding: var(--space-lg);
+      padding: var(--space-xl);
       box-shadow: var(--shadow-md);
-      margin-bottom: var(--space-lg);
     }
 
     .btn-start {
       width: 100%;
-      padding: var(--space-md) var(--space-lg);
+      padding: var(--space-lg);
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: #fff;
-      font-family: inherit;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 600;
       border: none;
       border-radius: var(--radius-md);
@@ -173,18 +137,16 @@
       box-shadow: var(--shadow-md), 0 4px 14px rgba(99,102,241,0.4);
       transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     }
-
     .btn-start:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg), 0 6px 20px rgba(99,102,241,0.5); }
     .btn-start:active { transform: translateY(0); }
-    .btn-start svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .btn-start svg { width: 26px; height: 26px; stroke: currentColor; fill: none; stroke-width: 2; }
 
     .btn-history {
       width: 100%;
       padding: var(--space-md) var(--space-lg);
-      margin-top: var(--space-sm);
+      margin-top: var(--space-md);
       background: #fff;
       color: var(--primary);
-      font-family: inherit;
       font-size: 1rem;
       font-weight: 600;
       border: 2px solid var(--primary);
@@ -196,31 +158,10 @@
       gap: var(--space-sm);
       transition: all var(--transition-fast);
     }
-
     .btn-history:hover { background: var(--primary-bg); }
     .btn-history svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
 
-    /* Stats Grid */
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-sm); }
-
-    .stat-card {
-      background: #fff;
-      border-radius: var(--radius-md);
-      padding: var(--space-md) var(--space-sm);
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-fast);
-    }
-
-    .stat-card:hover { transform: translateY(-2px); }
-
-    .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); line-height: 1.2; }
-    .stat-card.success .stat-value { color: var(--success); }
-    .stat-card.warning .stat-value { color: var(--warning); }
-    .stat-card.danger .stat-value { color: var(--danger); }
-    .stat-label { font-size: 0.7rem; color: var(--gray-500); margin-top: var(--space-xs); font-weight: 500; }
-
-    .home-footer { text-align: center; padding-top: var(--space-lg); color: var(--gray-400); font-size: 0.8rem; }
+    .home-footer { text-align: center; padding-top: var(--space-xl); color: var(--gray-400); font-size: 0.8rem; }
 
     /* Form Page */
     .page-form { min-height: 100vh; min-height: 100dvh; background: var(--gray-100); }
@@ -252,7 +193,6 @@
       cursor: pointer;
       transition: background var(--transition-fast);
     }
-
     .btn-icon:hover { background: rgba(255,255,255,0.25); }
     .btn-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
     .form-header-title { font-size: 1.1rem; font-weight: 600; }
@@ -272,10 +212,9 @@
     .badge-required { font-size: 0.65rem; font-weight: 600; color: var(--danger); background: var(--danger-light); padding: 2px 8px; border-radius: var(--radius-full); }
     .badge-optional { font-size: 0.65rem; font-weight: 600; color: var(--gray-500); background: var(--gray-200); padding: 2px 8px; border-radius: var(--radius-full); }
 
-    /* Photo Upload */
+    /* Photo */
     .photo-upload { position: relative; }
-    .photo-input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
-
+    .photo-input { position: absolute; width: 1px; height: 1px; opacity: 0; }
     .photo-label {
       display: flex;
       flex-direction: column;
@@ -288,14 +227,11 @@
       cursor: pointer;
       transition: all var(--transition-fast);
     }
-
     .photo-label:hover { border-color: var(--primary); background: var(--primary-bg); }
     .photo-icon { font-size: 2.5rem; margin-bottom: var(--space-sm); }
     .photo-text { font-size: 0.9rem; color: var(--gray-500); }
-
     .photo-preview { position: relative; margin-top: var(--space-md); }
     .photo-preview img { width: 100%; max-height: 250px; object-fit: cover; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
-
     .btn-remove-photo {
       position: absolute;
       top: var(--space-sm);
@@ -312,27 +248,22 @@
       align-items: center;
       justify-content: center;
       box-shadow: var(--shadow-md);
-      transition: transform var(--transition-fast);
     }
-
-    .btn-remove-photo:hover { transform: scale(1.1); }
 
     /* Input */
     .input-text {
       width: 100%;
       padding: 14px 16px;
-      font-family: inherit;
       font-size: 1rem;
       color: var(--gray-800);
       background: var(--gray-50);
       border: 2px solid var(--gray-200);
       border-radius: var(--radius-md);
-      transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+      transition: border-color var(--transition-fast), background var(--transition-fast);
     }
-
-    .input-text:focus { outline: none; border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px var(--primary-bg); }
+    .input-text:focus { outline: none; border-color: var(--primary); background: #fff; }
     .input-text::placeholder { color: var(--gray-400); }
-    .input-mono { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-weight: 500; letter-spacing: 0.5px; }
+    .input-mono { font-family: 'SF Mono', 'Consolas', monospace; font-weight: 500; letter-spacing: 0.5px; }
 
     .input-row { display: flex; gap: var(--space-sm); }
     .input-row .input-text { flex: 1; }
@@ -349,11 +280,9 @@
       border-radius: var(--radius-md);
       cursor: pointer;
       flex-shrink: 0;
-      transition: background var(--transition-fast), transform var(--transition-fast);
+      transition: background var(--transition-fast);
     }
-
     .btn-scan:hover { background: var(--primary-dark); }
-    .btn-scan:active { transform: scale(0.95); }
     .btn-scan svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; }
 
     .scanned-badge {
@@ -370,15 +299,13 @@
       font-weight: 500;
     }
 
-    /* Number Grid */
+    /* Number */
     .number-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--space-md); align-items: end; }
     .number-group { text-align: center; }
     .number-label { font-size: 0.8rem; font-weight: 500; color: var(--gray-500); margin-bottom: var(--space-sm); }
-
     .input-number {
       width: 100%;
       padding: var(--space-md);
-      font-family: inherit;
       font-size: 2rem;
       font-weight: 700;
       text-align: center;
@@ -386,9 +313,7 @@
       background: var(--gray-50);
       border: 2px solid var(--gray-200);
       border-radius: var(--radius-md);
-      transition: border-color var(--transition-fast), background var(--transition-fast);
     }
-
     .input-number:focus { outline: none; border-color: var(--primary); background: #fff; }
     .number-arrow { color: var(--gray-400); font-size: 1.5rem; padding-bottom: 20px; }
 
@@ -399,7 +324,6 @@
 
     /* Status */
     .status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
-
     .status-btn {
       display: flex;
       flex-direction: column;
@@ -412,23 +336,21 @@
       cursor: pointer;
       transition: all var(--transition-fast);
     }
-
     .status-btn:hover { border-color: var(--gray-300); }
     .status-icon { font-size: 1.5rem; }
     .status-text { font-size: 0.9rem; font-weight: 600; color: var(--gray-700); }
 
-    .status-btn.active.type-shortage { background: var(--danger); border-color: var(--danger); color: #fff; }
+    .status-btn.active.type-shortage { background: var(--danger); border-color: var(--danger); }
     .status-btn.active.type-shortage .status-text { color: #fff; }
-    .status-btn.active.type-excess { background: var(--warning); border-color: var(--warning); color: #fff; }
+    .status-btn.active.type-excess { background: var(--warning); border-color: var(--warning); }
     .status-btn.active.type-excess .status-text { color: #fff; }
-    .status-btn.active.type-complete { background: var(--success); border-color: var(--success); color: #fff; }
+    .status-btn.active.type-complete { background: var(--success); border-color: var(--success); }
     .status-btn.active.type-complete .status-text { color: #fff; }
 
     /* Textarea */
     .input-textarea {
       width: 100%;
       padding: 14px 16px;
-      font-family: inherit;
       font-size: 1rem;
       color: var(--gray-800);
       background: var(--gray-50);
@@ -436,14 +358,11 @@
       border-radius: var(--radius-md);
       resize: vertical;
       min-height: 100px;
-      transition: border-color var(--transition-fast), background var(--transition-fast);
     }
-
     .input-textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
 
     /* Excess */
     .excess-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
-
     .excess-btn {
       display: flex;
       flex-direction: column;
@@ -455,7 +374,6 @@
       cursor: pointer;
       transition: all var(--transition-fast);
     }
-
     .excess-btn:hover { border-color: var(--gray-300); }
     .excess-btn.active { border-color: var(--primary); background: var(--primary-bg); }
     .excess-color { width: 32px; height: 32px; border-radius: var(--radius-full); margin-bottom: var(--space-sm); box-shadow: inset 0 -3px 6px rgba(0,0,0,0.15); }
@@ -467,7 +385,7 @@
     .qty-item { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); background: var(--gray-50); border-radius: var(--radius-sm); margin-bottom: var(--space-sm); }
     .qty-color { width: 20px; height: 20px; border-radius: var(--radius-full); }
     .qty-name { flex: 1; font-size: 0.9rem; font-weight: 500; }
-    .qty-input { width: 72px; padding: var(--space-sm); font-family: inherit; font-size: 1rem; font-weight: 600; text-align: center; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); }
+    .qty-input { width: 72px; padding: var(--space-sm); font-size: 1rem; font-weight: 600; text-align: center; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); }
     .qty-input:focus { outline: none; border-color: var(--primary); }
     .qty-unit { font-size: 0.8rem; color: var(--gray-500); }
     .qty-total { display: flex; justify-content: flex-end; align-items: center; gap: var(--space-sm); margin-top: var(--space-md); font-weight: 600; color: var(--primary); }
@@ -494,7 +412,6 @@
     .btn-clear {
       flex: 1;
       padding: var(--space-md);
-      font-family: inherit;
       font-size: 1rem;
       font-weight: 600;
       color: var(--gray-600);
@@ -502,15 +419,12 @@
       border: 2px solid var(--gray-200);
       border-radius: var(--radius-md);
       cursor: pointer;
-      transition: all var(--transition-fast);
     }
-
     .btn-clear:hover { border-color: var(--gray-300); background: var(--gray-50); }
 
     .btn-submit {
       flex: 2;
       padding: var(--space-md);
-      font-family: inherit;
       font-size: 1rem;
       font-weight: 600;
       color: #fff;
@@ -519,10 +433,8 @@
       border-radius: var(--radius-md);
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(99,102,241,0.4);
-      transition: all var(--transition-fast);
     }
-
-    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99,102,241,0.5); }
+    .btn-submit:hover { transform: translateY(-1px); }
     .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
     /* Modal */
@@ -538,31 +450,13 @@
       backdrop-filter: blur(4px);
     }
 
-    .scanner-container { width: 100%; max-width: 400px; background: var(--gray-900); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-xl); }
+    .scanner-container { width: 100%; max-width: 400px; background: var(--gray-900); border-radius: var(--radius-xl); overflow: hidden; }
     .scanner-header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md) var(--space-lg); background: var(--primary); color: #fff; }
     .scanner-title { font-size: 1rem; font-weight: 600; }
-
-    .btn-close {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.2);
-      border: none;
-      border-radius: var(--radius-sm);
-      color: #fff;
-      cursor: pointer;
-      font-size: 1.2rem;
-      transition: background var(--transition-fast);
-    }
-
-    .btn-close:hover { background: rgba(255,255,255,0.3); }
-
+    .btn-close { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); border: none; border-radius: var(--radius-sm); color: #fff; cursor: pointer; font-size: 1.2rem; }
     .scanner-viewport { position: relative; height: 280px; background: #000; }
     #qr-reader { width: 100%; height: 100%; }
     #qr-reader video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
-
     .scanner-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
     .scanner-frame { width: 200px; height: 200px; border: 2px solid rgba(255,255,255,0.3); border-radius: var(--radius-md); position: relative; }
     .frame-corner { position: absolute; width: 24px; height: 24px; border: 3px solid var(--primary-light); }
@@ -570,60 +464,30 @@
     .frame-corner.top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; border-radius: 0 8px 0 0; }
     .frame-corner.bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; border-radius: 0 0 0 8px; }
     .frame-corner.bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; border-radius: 0 0 8px 0; }
-
     .scan-line { position: absolute; left: 8px; right: 8px; height: 2px; background: linear-gradient(90deg, transparent, var(--primary-light), transparent); animation: scan 2s ease-in-out infinite; }
     @keyframes scan { 0%, 100% { top: 8px; } 50% { top: calc(100% - 8px); } }
-
     .scanner-footer { padding: var(--space-md); }
     .scanner-hint { text-align: center; color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: var(--space-md); }
     .manual-input-row { display: flex; gap: var(--space-sm); }
-
-    .manual-input {
-      flex: 1;
-      padding: 14px 16px;
-      font-family: inherit;
-      font-size: 1rem;
-      background: rgba(255,255,255,0.1);
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: var(--radius-md);
-      color: #fff;
-      transition: border-color var(--transition-fast);
-    }
-
+    .manual-input { flex: 1; padding: 14px 16px; font-size: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: var(--radius-md); color: #fff; }
     .manual-input:focus { outline: none; border-color: var(--primary-light); }
     .manual-input::placeholder { color: rgba(255,255,255,0.4); }
+    .btn-manual { padding: 14px 20px; font-size: 1rem; font-weight: 600; background: var(--primary); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; }
 
-    .btn-manual {
-      padding: 14px 20px;
-      font-family: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: background var(--transition-fast);
-    }
-
-    .btn-manual:hover { background: var(--primary-dark); }
-
-    /* Success Modal */
-    .success-container { background: #fff; border-radius: var(--radius-xl); padding: var(--space-xl); text-align: center; max-width: 320px; width: 100%; box-shadow: var(--shadow-xl); }
+    /* Success */
+    .success-container { background: #fff; border-radius: var(--radius-xl); padding: var(--space-xl); text-align: center; max-width: 320px; width: 100%; }
     .success-icon-wrapper { width: 80px; height: 80px; background: var(--success-light); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-lg); font-size: 2.5rem; animation: pop 0.4s ease; }
     @keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
     .success-title { font-size: 1.4rem; font-weight: 700; color: var(--success); margin-bottom: var(--space-sm); }
     .success-time { font-size: 0.9rem; color: var(--gray-500); margin-bottom: var(--space-lg); }
-    .btn-continue { width: 100%; padding: var(--space-md); font-family: inherit; font-size: 1rem; font-weight: 600; background: var(--success); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; transition: background var(--transition-fast); }
-    .btn-continue:hover { background: #059669; }
+    .btn-continue { width: 100%; padding: var(--space-md); font-size: 1rem; font-weight: 600; background: var(--success); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; }
 
-    /* Error Modal */
-    .error-container { background: #fff; border-radius: var(--radius-xl); padding: var(--space-xl); text-align: center; max-width: 320px; width: 100%; box-shadow: var(--shadow-xl); }
+    /* Error */
+    .error-container { background: #fff; border-radius: var(--radius-xl); padding: var(--space-xl); text-align: center; max-width: 320px; width: 100%; }
     .error-icon-wrapper { width: 70px; height: 70px; background: var(--danger-light); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md); font-size: 2rem; }
     .error-title { font-size: 1.2rem; font-weight: 700; color: var(--danger); margin-bottom: var(--space-sm); }
     .error-message { font-size: 0.9rem; color: var(--gray-500); margin-bottom: var(--space-lg); line-height: 1.6; }
-    .btn-error { width: 100%; padding: var(--space-md); font-family: inherit; font-size: 1rem; font-weight: 600; background: var(--danger); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; transition: background var(--transition-fast); }
-    .btn-error:hover { background: #DC2626; }
+    .btn-error { width: 100%; padding: var(--space-md); font-size: 1rem; font-weight: 600; background: var(--danger); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; }
 
     /* Loading Overlay */
     .loading-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(4px); }
@@ -631,20 +495,14 @@
     .saving-text { color: #fff; font-size: 1rem; font-weight: 500; }
 
     /* Toast */
-    .toast { position: fixed; bottom: 120px; left: var(--space-lg); right: var(--space-lg); background: var(--gray-800); color: #fff; padding: var(--space-md) var(--space-lg); border-radius: var(--radius-md); display: flex; align-items: center; gap: var(--space-sm); z-index: 3000; box-shadow: var(--shadow-lg); animation: slideUp 0.3s ease; }
+    .toast { position: fixed; bottom: 120px; left: var(--space-lg); right: var(--space-lg); background: var(--gray-800); color: #fff; padding: var(--space-md) var(--space-lg); border-radius: var(--radius-md); display: flex; align-items: center; gap: var(--space-sm); z-index: 3000; animation: slideUp 0.3s ease; }
     .toast.success { background: var(--success); }
     .toast.error { background: var(--danger); }
-    .toast.warning { background: var(--warning); }
     @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     .toast.fade-out { animation: slideDown 0.3s ease forwards; }
     @keyframes slideDown { to { opacity: 0; transform: translateY(16px); } }
 
-    @media (max-width: 360px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .excess-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    /* History Page */
+    /* History */
     .page-history { min-height: 100vh; min-height: 100dvh; background: var(--gray-100); }
     .history-body { padding: var(--space-md); }
     .history-loading { text-align: center; padding: var(--space-2xl); color: var(--gray-500); }
@@ -655,7 +513,6 @@
 
     .history-card-mini { background: #fff; border-radius: var(--radius-md); padding: var(--space-md); box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: var(--space-md); cursor: pointer; transition: all var(--transition-fast); }
     .history-card-mini:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-    .history-card-mini:active { transform: translateY(0); }
     .mini-status { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
     .mini-status.complete { background: var(--success-light); }
     .mini-status.excess { background: var(--warning-light); }
@@ -665,8 +522,8 @@
     .mini-sub { font-size: 0.8rem; color: var(--gray-500); margin-top: 2px; }
     .mini-arrow { color: var(--gray-400); font-size: 1.2rem; }
 
-    /* Detail Modal */
-    .detail-container { background: #fff; border-radius: var(--radius-xl); width: 100%; max-width: 400px; max-height: 85vh; overflow: hidden; box-shadow: var(--shadow-xl); }
+    /* Detail */
+    .detail-container { background: #fff; border-radius: var(--radius-xl); width: 100%; max-width: 400px; max-height: 85vh; overflow: hidden; }
     .detail-header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md) var(--space-lg); background: var(--primary); color: #fff; }
     .detail-header h3 { font-size: 1.1rem; font-weight: 600; }
     .detail-content { padding: var(--space-lg); overflow-y: auto; max-height: calc(85vh - 60px); }
@@ -682,14 +539,17 @@
     .detail-label { font-size: 0.7rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; }
     .detail-value { font-size: 0.95rem; font-weight: 500; color: var(--gray-800); margin-top: 2px; word-break: break-word; }
     .detail-photo { margin-top: var(--space-lg); }
-    .detail-photo img { width: 100%; border-radius: var(--radius-md); cursor: pointer; transition: transform var(--transition-fast); }
-    .detail-photo img:hover { transform: scale(1.02); }
+    .detail-photo img { width: 100%; border-radius: var(--radius-md); cursor: pointer; }
     .detail-footer { margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px dashed var(--gray-200); display: flex; align-items: center; gap: var(--space-sm); color: var(--gray-500); font-size: 0.85rem; }
 
     /* Photo Modal */
     .photo-modal-container { position: relative; max-width: 90vw; max-height: 90vh; }
-    .photo-modal-container img { max-width: 100%; max-height: 85vh; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); }
-    .btn-close-photo { position: absolute; top: -15px; right: -15px; width: 40px; height: 40px; background: #fff; color: var(--gray-700); border: none; border-radius: var(--radius-full); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; }
+    .photo-modal-container img { max-width: 100%; max-height: 85vh; border-radius: var(--radius-lg); }
+    .btn-close-photo { position: absolute; top: -15px; right: -15px; width: 40px; height: 40px; background: #fff; color: var(--gray-700); border: none; border-radius: var(--radius-full); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+    @media (max-width: 360px) {
+      .excess-grid { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 <body>
@@ -698,6 +558,7 @@
     <div class="loader-text">กำลังเตรียมระบบ...</div>
   </div>
 
+  <!-- HOME PAGE - ไม่มีสถิติ -->
   <div id="pageHome" class="page-home hidden">
     <header class="home-header">
       <div class="home-logo">
@@ -711,7 +572,7 @@
       <p class="home-subtitle">Crate Inspection System</p>
     </header>
 
-    <main class="home-main">
+    <main>
       <div class="card-start">
         <button id="btnStart" class="btn-start">
           <svg viewBox="0 0 24 24">
@@ -726,52 +587,23 @@
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/>
             <line x1="16" y1="17" x2="8" y2="17"/>
-            <polyline points="10 9 9 9 8 9"/>
           </svg>
           ดูรายการที่บันทึก
         </button>
       </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value" id="statToday">-</div>
-          <div class="stat-label">ตรวจวันนี้</div>
-        </div>
-        <div class="stat-card success">
-          <div class="stat-value" id="statComplete">-</div>
-          <div class="stat-label">ครบถ้วน</div>
-        </div>
-        <div class="stat-card warning">
-          <div class="stat-value" id="statExcess">-</div>
-          <div class="stat-label">เกิน</div>
-        </div>
-        <div class="stat-card danger">
-          <div class="stat-value" id="statShortage">-</div>
-          <div class="stat-label">ขาด</div>
-        </div>
-      </div>
     </main>
 
     <footer class="home-footer">
-      <p>เวอร์ชัน 2.0.0</p>
+      <p>เวอร์ชัน 3.0.0</p>
     </footer>
   </div>
 
+  <!-- FORM PAGE -->
   <div id="pageForm" class="page-form hidden">
     <header class="form-header">
-      <button id="btnBack" class="btn-icon" aria-label="กลับ">
-        <svg viewBox="0 0 24 24">
-          <line x1="19" y1="12" x2="5" y2="12"/>
-          <polyline points="12 19 5 12 12 5"/>
-        </svg>
-      </button>
+      <button id="btnBack" class="btn-icon"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
       <h1 class="form-header-title">บันทึกการตรวจสอบ</h1>
-      <button id="btnReset" class="btn-icon" aria-label="รีเซ็ต">
-        <svg viewBox="0 0 24 24">
-          <polyline points="23 4 23 10 17 10"/>
-          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-        </svg>
-      </button>
+      <button id="btnReset" class="btn-icon"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
     </header>
 
     <div class="form-body">
@@ -792,12 +624,7 @@
         </div>
         <div class="input-row">
           <input type="text" id="inputTruck" class="input-text input-mono" placeholder="สแกนหรือพิมพ์รหัสรถ...">
-          <button class="btn-scan" data-target="truck" aria-label="สแกน QR">
-            <svg viewBox="0 0 24 24">
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-              <circle cx="12" cy="13" r="4"/>
-            </svg>
-          </button>
+          <button class="btn-scan" data-target="truck"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
         </div>
         <div id="badgeTruck" class="scanned-badge hidden">✓ <span></span></div>
       </section>
@@ -810,12 +637,7 @@
         </div>
         <div class="input-row">
           <input type="text" id="inputTrf" class="input-text input-mono" placeholder="สแกนหรือพิมพ์เลขเอกสาร...">
-          <button class="btn-scan" data-target="trf" aria-label="สแกน QR">
-            <svg viewBox="0 0 24 24">
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-              <circle cx="12" cy="13" r="4"/>
-            </svg>
-          </button>
+          <button class="btn-scan" data-target="trf"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
         </div>
         <div id="badgeTrf" class="scanned-badge hidden">✓ <span></span></div>
       </section>
@@ -847,18 +669,9 @@
           <span class="badge-required">จำเป็น</span>
         </div>
         <div class="status-grid">
-          <button class="status-btn type-shortage" data-status="ขาด">
-            <span class="status-icon">❌</span>
-            <span class="status-text">ขาด</span>
-          </button>
-          <button class="status-btn type-excess" data-status="เกิน">
-            <span class="status-icon">➕</span>
-            <span class="status-text">เกิน</span>
-          </button>
-          <button class="status-btn type-complete" data-status="ครบ">
-            <span class="status-icon">✅</span>
-            <span class="status-text">ครบ</span>
-          </button>
+          <button class="status-btn type-shortage" data-status="ขาด"><span class="status-icon">❌</span><span class="status-text">ขาด</span></button>
+          <button class="status-btn type-excess" data-status="เกิน"><span class="status-icon">➕</span><span class="status-text">เกิน</span></button>
+          <button class="status-btn type-complete" data-status="ครบ"><span class="status-icon">✅</span><span class="status-text">ครบ</span></button>
         </div>
       </section>
 
@@ -867,7 +680,7 @@
           <span class="section-icon">📝</span>
           <span class="section-title">รายละเอียดลังที่ขาด</span>
         </div>
-        <textarea id="inputShortage" class="input-textarea" placeholder="ระบุหมายเลขลังที่ขาด เช่น ลังที่ 1, 5, 12..."></textarea>
+        <textarea id="inputShortage" class="input-textarea" placeholder="ระบุหมายเลขลังที่ขาด..."></textarea>
       </section>
 
       <section id="sectionExcess" class="form-section hidden">
@@ -879,11 +692,7 @@
         <div id="qtySection" class="qty-section hidden">
           <div class="qty-title">ระบุจำนวนแต่ละประเภท:</div>
           <div id="qtyList"></div>
-          <div class="qty-total">
-            <span>รวมทั้งหมด:</span>
-            <span class="qty-total-value" id="totalQty">0</span>
-            <span>ใบ</span>
-          </div>
+          <div class="qty-total"><span>รวมทั้งหมด:</span><span class="qty-total-value" id="totalQty">0</span><span>ใบ</span></div>
         </div>
       </section>
 
@@ -938,10 +747,11 @@
     </div>
   </div>
 
+  <!-- SCANNER MODAL -->
   <div id="modalScanner" class="modal hidden">
     <div class="scanner-container">
       <header class="scanner-header">
-        <button id="btnCloseScanner" class="btn-close" aria-label="ปิด">✕</button>
+        <button id="btnCloseScanner" class="btn-close">✕</button>
         <h2 id="scannerTitle" class="scanner-title">สแกน QR Code</h2>
         <div style="width:36px"></div>
       </header>
@@ -967,6 +777,7 @@
     </div>
   </div>
 
+  <!-- SUCCESS MODAL -->
   <div id="modalSuccess" class="modal hidden">
     <div class="success-container">
       <div class="success-icon-wrapper">✅</div>
@@ -976,6 +787,7 @@
     </div>
   </div>
 
+  <!-- ERROR MODAL -->
   <div id="modalError" class="modal hidden">
     <div class="error-container">
       <div class="error-icon-wrapper">⚠️</div>
@@ -985,41 +797,27 @@
     </div>
   </div>
 
+  <!-- LOADING OVERLAY -->
   <div id="loadingOverlay" class="loading-overlay hidden">
     <div class="saving-spinner"></div>
     <p class="saving-text">กำลังบันทึกข้อมูล...</p>
   </div>
 
+  <!-- HISTORY PAGE -->
   <div id="pageHistory" class="page-history hidden">
     <header class="form-header">
-      <button id="btnBackHistory" class="btn-icon" aria-label="กลับ">
-        <svg viewBox="0 0 24 24">
-          <line x1="19" y1="12" x2="5" y2="12"/>
-          <polyline points="12 19 5 12 12 5"/>
-        </svg>
-      </button>
+      <button id="btnBackHistory" class="btn-icon"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
       <h1 class="form-header-title">รายการที่บันทึก</h1>
-      <button id="btnRefreshHistory" class="btn-icon" aria-label="รีเฟรช">
-        <svg viewBox="0 0 24 24">
-          <polyline points="23 4 23 10 17 10"/>
-          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-        </svg>
-      </button>
+      <button id="btnRefreshHistory" class="btn-icon"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
     </header>
-
     <div class="history-body">
-      <div id="historyLoading" class="history-loading">
-        <div class="saving-spinner"></div>
-        <p>กำลังโหลดข้อมูล...</p>
-      </div>
-      <div id="historyEmpty" class="history-empty hidden">
-        <div class="empty-icon">📋</div>
-        <p>ยังไม่มีรายการที่บันทึก</p>
-      </div>
+      <div id="historyLoading" class="history-loading"><div class="saving-spinner"></div><p>กำลังโหลดข้อมูล...</p></div>
+      <div id="historyEmpty" class="history-empty hidden"><div class="empty-icon">📋</div><p>ยังไม่มีรายการที่บันทึก</p></div>
       <div id="historyList" class="history-list hidden"></div>
     </div>
   </div>
 
+  <!-- DETAIL MODAL -->
   <div id="modalDetail" class="modal hidden">
     <div class="detail-container">
       <div class="detail-header">
@@ -1030,6 +828,7 @@
     </div>
   </div>
 
+  <!-- PHOTO MODAL -->
   <div id="modalPhoto" class="modal hidden">
     <div class="photo-modal-container">
       <button id="btnClosePhoto" class="btn-close-photo">✕</button>
@@ -1043,9 +842,9 @@
   
   <script>
     // =====================================================
-    // CONFIG - เปลี่ยน URL ตรงนี้หลัง Deploy ใหม่
+    // CONFIG
     // =====================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzrvKqbccQWWex2ci7mHhopkPlJyof2LfV82V4OCMR-zB94lJ1kBsFx37K0JzQvKUMFFg/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbydBLcSuFmfP-WZocKyE09G70SL0WQnuij083bXLvI2V_NrV0iJzD-ihM4d3gJu7aMsUQ/exec';
 
     const EXCESS_TYPES = [
       { id: 'orange', name: 'สีส้ม', color: '#F97316' },
@@ -1063,7 +862,6 @@
       scanTarget: null,
       selectedStatus: null,
       selectedExcess: {},
-      stats: { today: 0, complete: 0, excess: 0, shortage: 0 },
       qrScanner: null,
       photoData: null,
       historyRecords: [],
@@ -1077,7 +875,6 @@
     function init() {
       setupEventListeners();
       renderExcessTypes();
-      loadStats();
 
       setTimeout(() => {
         $('loading').classList.add('fade-out');
@@ -1131,7 +928,6 @@
       $('pageHome').classList.toggle('hidden', page !== 'home');
       $('pageForm').classList.toggle('hidden', page !== 'form');
       $('pageHistory').classList.toggle('hidden', page !== 'history');
-      if (page === 'home') loadStats();
     }
 
     function renderExcessTypes() {
@@ -1203,9 +999,7 @@
 
     function selectStatus(status) {
       state.selectedStatus = status;
-
       $$('.status-btn').forEach(btn => { btn.classList.toggle('active', btn.dataset.status === status); });
-
       $('sectionShortage').classList.toggle('hidden', status !== 'ขาด');
       $('sectionExcess').classList.toggle('hidden', status !== 'เกิน');
       $('sectionComplete').classList.toggle('hidden', status !== 'ครบ');
@@ -1237,7 +1031,7 @@
     }
 
     // =====================================================
-    // PHOTO UPLOAD
+    // PHOTO
     // =====================================================
     function handlePhotoSelect(e) {
       const file = e.target.files[0];
@@ -1253,7 +1047,7 @@
         $('previewImg').src = base64;
         $('photoPreview').classList.remove('hidden');
         document.querySelector('.photo-label').classList.add('hidden');
-        showToast('เลือกรูปภาพแล้ว (' + Math.round(base64.length / 1024) + ' KB)', 'success');
+        showToast('เลือกรูปภาพแล้ว', 'success');
       });
     }
 
@@ -1282,9 +1076,7 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          const base64 = canvas.toDataURL('image/jpeg', 0.6);
-          console.log('📷 Compressed photo size:', Math.round(base64.length / 1024), 'KB');
-          callback(base64);
+          callback(canvas.toDataURL('image/jpeg', 0.6));
         };
         img.src = e.target.result;
       };
@@ -1326,7 +1118,6 @@
         );
       } catch (err) {
         console.error('Scanner error:', err);
-        showToast('ไม่สามารถเปิดกล้องได้', 'error');
       }
     }
 
@@ -1420,12 +1211,6 @@
         photoData: state.photoData || '',
       };
 
-      console.log('📤 Sending record...');
-      console.log('📷 Has photo:', !!state.photoData);
-      if (state.photoData) {
-        console.log('📷 Photo data length:', state.photoData.length);
-      }
-
       try {
         const startTime = Date.now();
         
@@ -1438,30 +1223,19 @@
         const result = await response.json();
         const elapsed = Date.now() - startTime;
 
-        console.log('📥 Response:', result);
-
         hideLoading();
 
         if (result.success) {
-          state.stats.today++;
-          if (state.selectedStatus === 'ครบ') state.stats.complete++;
-          else if (state.selectedStatus === 'เกิน') state.stats.excess++;
-          else if (state.selectedStatus === 'ขาด') state.stats.shortage++;
-          updateStatsDisplay();
-          
           let successMsg = `ใช้เวลา ${elapsed} มิลลิวินาที`;
           if (result.photoUrl) {
             successMsg += '\n📷 รูปภาพถูกบันทึกแล้ว';
-            console.log('✅ Photo URL:', result.photoUrl);
           }
-          
           showSuccess(successMsg);
         } else {
           throw new Error(result.error || 'เกิดข้อผิดพลาดไม่ทราบสาเหตุ');
         }
       } catch (err) {
         hideLoading();
-        console.error('❌ Error:', err);
         showError(`บันทึกไม่สำเร็จ: ${err.message}`);
       }
     }
@@ -1505,47 +1279,6 @@
     }
 
     // =====================================================
-    // STATS
-    // =====================================================
-    function updateStatsDisplay() {
-      $('statToday').textContent = state.stats.today;
-      $('statComplete').textContent = state.stats.complete;
-      $('statExcess').textContent = state.stats.excess;
-      $('statShortage').textContent = state.stats.shortage;
-    }
-
-    async function loadStats() {
-      $('statToday').textContent = '-';
-      $('statComplete').textContent = '-';
-      $('statExcess').textContent = '-';
-      $('statShortage').textContent = '-';
-      
-      try {
-        const response = await fetch(`${API_URL}?action=stats`);
-        const result = await response.json();
-        
-        console.log('📊 Stats response:', result);
-        
-        if (result.success && result.stats) {
-          state.stats = {
-            today: result.stats.today || 0,
-            complete: result.stats.complete || 0,
-            excess: result.stats.excess || 0,
-            shortage: result.stats.shortage || 0
-          };
-          updateStatsDisplay();
-        } else {
-          state.stats = { today: 0, complete: 0, excess: 0, shortage: 0 };
-          updateStatsDisplay();
-        }
-      } catch (e) {
-        console.error('Error loading stats:', e);
-        state.stats = { today: 0, complete: 0, excess: 0, shortage: 0 };
-        updateStatsDisplay();
-      }
-    }
-
-    // =====================================================
     // MODALS
     // =====================================================
     function showModal(id) { $(id).classList.remove('hidden'); }
@@ -1558,8 +1291,7 @@
     function showToast(message, type = 'info') {
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
-      toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+      toast.innerHTML = `<span>${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span><span>${message}</span>`;
       $('toastContainer').appendChild(toast);
 
       setTimeout(() => {
@@ -1569,7 +1301,85 @@
     }
 
     // =====================================================
-    // HISTORY - ✅ ไม่แปลง format วันที่ซ้ำ
+    // ✅ FORMAT วันที่ - แปลง ISO เป็น DD/MM/YYYY HH:mm:ss
+    // =====================================================
+    function formatDisplayDate(timestamp) {
+      if (!timestamp) return '-';
+      
+      const str = String(timestamp);
+      
+      // ถ้าเป็น format DD/MM/YYYY แล้ว ใช้ได้เลย
+      if (/^\d{2}\/\d{2}\/\d{4}/.test(str)) {
+        return str;
+      }
+      
+      // ถ้าเป็น ISO format (2568-12-03T16:41:44.000Z)
+      if (str.includes('T') || str.includes('-')) {
+        try {
+          // ตรวจสอบว่าปีเป็น พ.ศ. หรือ ค.ศ.
+          const yearMatch = str.match(/^(\d{4})/);
+          let year = yearMatch ? parseInt(yearMatch[1]) : 0;
+          
+          // ถ้าปี > 2500 แสดงว่าเป็น พ.ศ. แล้ว
+          if (year > 2500) {
+            // แปลงจาก YYYY-MM-DDTHH:mm:ss เป็น DD/MM/YYYY HH:mm:ss
+            const match = str.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
+            if (match) {
+              return `${match[3]}/${match[2]}/${match[1]} ${match[4]}:${match[5]}:${match[6]}`;
+            }
+          } else {
+            // เป็น ค.ศ. ต้องบวก 543
+            const date = new Date(str);
+            if (!isNaN(date.getTime())) {
+              const day = String(date.getDate()).padStart(2, '0');
+              const month = String(date.getMonth() + 1).padStart(2, '0');
+              const thaiYear = date.getFullYear() + 543;
+              const hours = String(date.getHours()).padStart(2, '0');
+              const minutes = String(date.getMinutes()).padStart(2, '0');
+              const seconds = String(date.getSeconds()).padStart(2, '0');
+              return `${day}/${month}/${thaiYear} ${hours}:${minutes}:${seconds}`;
+            }
+          }
+        } catch (e) {
+          console.error('Date parse error:', e);
+        }
+      }
+      
+      return str;
+    }
+
+    // =====================================================
+    // ✅ แปลง Photo URL ให้แสดงได้
+    // =====================================================
+    function convertPhotoUrl(url) {
+      if (!url) return '';
+      
+      // ถ้าเป็น lh3.googleusercontent.com อยู่แล้ว
+      if (url.includes('lh3.googleusercontent.com')) {
+        return url;
+      }
+      
+      // แปลงจาก drive.google.com/uc?export=view&id=XXX
+      if (url.includes('drive.google.com/uc')) {
+        const match = url.match(/id=([a-zA-Z0-9_-]+)/);
+        if (match) {
+          return 'https://lh3.googleusercontent.com/d/' + match[1];
+        }
+      }
+      
+      // แปลงจาก drive.google.com/file/d/XXX
+      if (url.includes('drive.google.com/file/d/')) {
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match) {
+          return 'https://lh3.googleusercontent.com/d/' + match[1];
+        }
+      }
+      
+      return url;
+    }
+
+    // =====================================================
+    // HISTORY
     // =====================================================
     async function loadHistory() {
       $('historyLoading').classList.remove('hidden');
@@ -1605,8 +1415,8 @@
         else if (record.statusExcess) { statusClass = 'excess'; statusIcon = '➕'; }
         else if (record.statusShortage) { statusClass = 'shortage'; statusIcon = '❌'; }
 
-        // ✅ ใช้ timestamp จาก server โดยตรง (ไม่แปลงซ้ำ)
-        const displayDate = String(record.timestamp);
+        // ✅ ใช้ฟังก์ชัน format วันที่
+        const displayDate = formatDisplayDate(record.timestamp);
 
         return `
           <div class="history-card-mini" onclick="showDetail(${index})">
@@ -1634,9 +1444,11 @@
       else if (record.statusExcess) { statusClass = 'excess'; statusIcon = '➕'; statusText = 'ลังเกิน'; }
       else if (record.statusShortage) { statusClass = 'shortage'; statusIcon = '❌'; statusText = 'ลังขาด'; }
 
-      const photoHtml = record.photoUrl ? `
+      // ✅ แปลง Photo URL
+      const photoUrl = convertPhotoUrl(record.photoUrl);
+      const photoHtml = photoUrl ? `
         <div class="detail-photo">
-          <img src="${record.photoUrl}" alt="Photo" onclick="openPhoto('${record.photoUrl}')">
+          <img src="${photoUrl}" alt="Photo" onclick="openPhoto('${photoUrl}')" onerror="this.style.display='none'">
         </div>
       ` : '';
 
@@ -1647,8 +1459,8 @@
         extraInfo = `<div class="detail-item full"><div class="detail-label">รายละเอียดที่เกิน</div><div class="detail-value">${record.excessDetails}</div></div>`;
       }
 
-      // ✅ ใช้ timestamp จาก server โดยตรง
-      const displayDate = String(record.timestamp);
+      // ✅ ใช้ฟังก์ชัน format วันที่
+      const displayDate = formatDisplayDate(record.timestamp);
 
       const html = `
         <div class="detail-status ${statusClass}">
