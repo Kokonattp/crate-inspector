@@ -844,7 +844,7 @@
     // =====================================================
     // CONFIG
     // =====================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzX2e7ZInsBtJF87uBf7jVHnTWb6CBm7KTpsqUCpOZ9D8YNoaZnNVUrG_1l1mIRPcDgWA/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyAmky9PAMDG2OpiU0i9uWSnkhq7fsDwftjtPM5HdV_biYv6_s_vxo7evsh-M3_1HKheQ/exec';
 
     const EXCESS_TYPES = [
       { id: 'orange', name: 'สีส้ม', color: '#F97316' },
@@ -1057,7 +1057,8 @@
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const maxSize = 800;
+          // ✅ ลดขนาดให้เล็กลง (600px แทน 800px)
+          const maxSize = 600;
           let width = img.width;
           let height = img.height;
 
@@ -1076,7 +1077,8 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          callback(canvas.toDataURL('image/jpeg', 0.6));
+          // ✅ ลด quality เหลือ 0.5 (เร็วขึ้น)
+          callback(canvas.toDataURL('image/jpeg', 0.5));
         };
         img.src = e.target.result;
       };
