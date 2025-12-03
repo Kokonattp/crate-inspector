@@ -844,7 +844,7 @@
     // =====================================================
     // CONFIG
     // =====================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbydBLcSuFmfP-WZocKyE09G70SL0WQnuij083bXLvI2V_NrV0iJzD-ihM4d3gJu7aMsUQ/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzX2e7ZInsBtJF87uBf7jVHnTWb6CBm7KTpsqUCpOZ9D8YNoaZnNVUrG_1l1mIRPcDgWA/exec';
 
     const EXCESS_TYPES = [
       { id: 'orange', name: 'สีส้ม', color: '#F97316' },
@@ -1301,51 +1301,14 @@
     }
 
     // =====================================================
-    // ✅ FORMAT วันที่ - แปลง ISO เป็น DD/MM/YYYY HH:mm:ss
+    // ✅ FORMAT วันที่ - รับ String จาก Server โดยตรง
     // =====================================================
     function formatDisplayDate(timestamp) {
       if (!timestamp) return '-';
       
-      const str = String(timestamp);
-      
-      // ถ้าเป็น format DD/MM/YYYY แล้ว ใช้ได้เลย
-      if (/^\d{2}\/\d{2}\/\d{4}/.test(str)) {
-        return str;
-      }
-      
-      // ถ้าเป็น ISO format (2568-12-03T16:41:44.000Z)
-      if (str.includes('T') || str.includes('-')) {
-        try {
-          // ตรวจสอบว่าปีเป็น พ.ศ. หรือ ค.ศ.
-          const yearMatch = str.match(/^(\d{4})/);
-          let year = yearMatch ? parseInt(yearMatch[1]) : 0;
-          
-          // ถ้าปี > 2500 แสดงว่าเป็น พ.ศ. แล้ว
-          if (year > 2500) {
-            // แปลงจาก YYYY-MM-DDTHH:mm:ss เป็น DD/MM/YYYY HH:mm:ss
-            const match = str.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
-            if (match) {
-              return `${match[3]}/${match[2]}/${match[1]} ${match[4]}:${match[5]}:${match[6]}`;
-            }
-          } else {
-            // เป็น ค.ศ. ต้องบวก 543
-            const date = new Date(str);
-            if (!isNaN(date.getTime())) {
-              const day = String(date.getDate()).padStart(2, '0');
-              const month = String(date.getMonth() + 1).padStart(2, '0');
-              const thaiYear = date.getFullYear() + 543;
-              const hours = String(date.getHours()).padStart(2, '0');
-              const minutes = String(date.getMinutes()).padStart(2, '0');
-              const seconds = String(date.getSeconds()).padStart(2, '0');
-              return `${day}/${month}/${thaiYear} ${hours}:${minutes}:${seconds}`;
-            }
-          }
-        } catch (e) {
-          console.error('Date parse error:', e);
-        }
-      }
-      
-      return str;
+      // Server ส่ง String มาในรูปแบบ DD/MM/YYYY HH:mm:ss แล้ว
+      // แค่ return ไปเลย
+      return String(timestamp);
     }
 
     // =====================================================
