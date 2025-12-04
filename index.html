@@ -1056,16 +1056,60 @@
     // =====================================================
     const API_URL = 'https://script.google.com/macros/s/AKfycbyAmky9PAMDG2OpiU0i9uWSnkhq7fsDwftjtPM5HdV_biYv6_s_vxo7evsh-M3_1HKheQ/exec';
 
-    // SVG Tote Icon Template
-    const TOTE_SVG = (color) => `
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="6" width="20" height="14" rx="2" fill="${color}" stroke="${color}" stroke-width="0.5"/>
-        <rect x="4" y="8" width="16" height="10" rx="1" fill="${color}" stroke="white" stroke-width="0.5" opacity="0.3"/>
-        <path d="M6 6V4C6 2.89543 6.89543 2 8 2H16C17.1046 2 18 2.89543 18 4V6" stroke="${color}" stroke-width="2" stroke-linecap="round"/>
-        <line x1="2" y1="10" x2="22" y2="10" stroke="white" stroke-width="0.5" opacity="0.5"/>
-        <rect x="9" y="12" width="6" height="4" rx="0.5" fill="white" opacity="0.3"/>
+    // SVG Tote Icon Template - ลังพลาสติกแบบมีช่องจับด้านข้าง
+    const TOTE_SVG = (color) => {
+      const darkerColor = adjustColor(color, -40);
+      const darkestColor = adjustColor(color, -60);
+      const lighterColor = adjustColor(color, 20);
+      
+      return `
+      <svg viewBox="0 0 50 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- ด้านหลังใน -->
+        <path d="M6 6 L44 6 L44 32 L6 32 Z" fill="${darkestColor}"/>
+        
+        <!-- ด้านข้างขวา (3D) -->
+        <path d="M44 6 L50 2 L50 28 L44 32 Z" fill="${darkerColor}"/>
+        
+        <!-- ด้านล่าง (3D) -->
+        <path d="M6 32 L0 28 L50 28 L44 32 Z" fill="${darkerColor}"/>
+        
+        <!-- ด้านหน้า (สีหลัก) -->
+        <path d="M0 2 L50 2 L50 28 L0 28 Z" fill="${color}"/>
+        
+        <!-- ขอบบนหนา -->
+        <path d="M0 0 L50 0 L50 4 L0 4 Z" fill="${lighterColor}"/>
+        <path d="M0 4 L50 4 L50 6 L0 6 Z" fill="${darkerColor}" opacity="0.3"/>
+        
+        <!-- ช่องจับซ้าย (รูปวงรี) -->
+        <ellipse cx="10" cy="15" rx="5" ry="2.5" fill="${darkestColor}"/>
+        <ellipse cx="10" cy="15" rx="4" ry="1.8" fill="${darkerColor}"/>
+        
+        <!-- ช่องจับขวา (รูปวงรี) -->
+        <ellipse cx="40" cy="15" rx="5" ry="2.5" fill="${darkestColor}"/>
+        <ellipse cx="40" cy="15" rx="4" ry="1.8" fill="${darkerColor}"/>
+        
+        <!-- เส้นลายบนลัง -->
+        <line x1="0" y1="10" x2="50" y2="10" stroke="${darkerColor}" stroke-width="0.5" opacity="0.3"/>
+        <line x1="0" y1="18" x2="50" y2="18" stroke="${darkerColor}" stroke-width="0.5" opacity="0.3"/>
+        <line x1="0" y1="24" x2="50" y2="24" stroke="${darkerColor}" stroke-width="0.5" opacity="0.3"/>
+        
+        <!-- เงาด้านล่าง -->
+        <path d="M2 28 L48 28 L48 30 L2 30 Z" fill="${darkestColor}" opacity="0.2"/>
       </svg>
-    `;
+    `};
+    
+    // ฟังก์ชันปรับความสว่างของสี
+    function adjustColor(hex, amount) {
+      hex = hex.replace('#', '');
+      const num = parseInt(hex, 16);
+      let r = (num >> 16) + amount;
+      let g = ((num >> 8) & 0x00FF) + amount;
+      let b = (num & 0x0000FF) + amount;
+      r = Math.max(0, Math.min(255, r));
+      g = Math.max(0, Math.min(255, g));
+      b = Math.max(0, Math.min(255, b));
+      return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+    }
 
     // ประเภทลังตามภาพที่ให้มา
     const CRATE_TYPES = [
