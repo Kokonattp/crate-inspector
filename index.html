@@ -577,7 +577,8 @@
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
     .detail-item { padding: var(--space-sm); background: var(--gray-50); border-radius: var(--radius-sm); }
     .detail-item.full { grid-column: 1 / -1; }
-    .detail-label { font-size: 0.7rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; }
+    .detail-label { font-size: 0.7rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; }
+    .detail-label svg { stroke: var(--gray-400); flex-shrink: 0; }
     .detail-value { font-size: 0.95rem; font-weight: 500; color: var(--gray-800); margin-top: 2px; word-break: break-word; }
     .detail-photo { margin-top: var(--space-lg); }
     .detail-photo img { width: 100%; border-radius: var(--radius-md); cursor: pointer; }
@@ -1705,9 +1706,21 @@
 
       let extraInfo = '';
       if (record.shortageNumbers) {
-        extraInfo = `<div class="detail-item full"><div class="detail-label">รายละเอียดที่ขาด</div><div class="detail-value">${record.shortageNumbers}</div></div>`;
+        extraInfo = `<div class="detail-item full">
+          <div class="detail-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            รายละเอียดที่ขาด
+          </div>
+          <div class="detail-value">${record.shortageNumbers}</div>
+        </div>`;
       } else if (record.excessDetails) {
-        extraInfo = `<div class="detail-item full"><div class="detail-label">รายละเอียดที่เกิน</div><div class="detail-value">${record.excessDetails}</div></div>`;
+        extraInfo = `<div class="detail-item full">
+          <div class="detail-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            รายละเอียดที่เกิน
+          </div>
+          <div class="detail-value">${record.excessDetails}</div>
+        </div>`;
       }
 
       const displayDate = formatDisplayDate(record.timestamp);
@@ -1720,31 +1733,52 @@
 
         <div class="detail-grid">
           <div class="detail-item full">
-            <div class="detail-label">วันที่-เวลา</div>
+            <div class="detail-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              วันที่-เวลา
+            </div>
             <div class="detail-value">${displayDate}</div>
           </div>
           <div class="detail-item">
-            <div class="detail-label">รหัสรถ</div>
+            <div class="detail-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              รหัสรถ
+            </div>
             <div class="detail-value">${record.truckId || '-'}</div>
           </div>
           <div class="detail-item">
-            <div class="detail-label">เอกสาร TRF</div>
+            <div class="detail-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              เอกสาร TRF
+            </div>
             <div class="detail-value">${record.trfDoc || '-'}</div>
           </div>
           <div class="detail-item">
-            <div class="detail-label">ลังตั้งต้น</div>
+            <div class="detail-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              ลังตั้งต้น
+            </div>
             <div class="detail-value">${record.initialCrates || 0}</div>
           </div>
           <div class="detail-item">
-            <div class="detail-label">ลังที่รับ</div>
+            <div class="detail-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/></svg>
+              ลังที่รับ
+            </div>
             <div class="detail-value">${record.receivedCrates || 0}</div>
           </div>
           <div class="detail-item">
-            <div class="detail-label">ผลต่าง</div>
+            <div class="detail-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+              ผลต่าง
+            </div>
             <div class="detail-value">${record.difference > 0 ? '+' : ''}${record.difference || 0}</div>
           </div>
           <div class="detail-item">
-            <div class="detail-label">เลข WT</div>
+            <div class="detail-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              เลข WT
+            </div>
             <div class="detail-value">${record.wtNumber || '-'}</div>
           </div>
           ${extraInfo}
