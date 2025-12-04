@@ -63,7 +63,6 @@
       line-height: 1.6;
     }
 
-    /* Force Prompt font everywhere */
     input, textarea, button, select, div, span, p, h1, h2, h3, h4, h5, h6, label, a { 
       font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif !important; 
     }
@@ -354,7 +353,7 @@
     .status-btn.active.type-complete .status-text { color: #fff; }
     .status-btn.active.type-complete svg { stroke: #fff; }
 
-    /* Crate Type Grid - Tote Icons */
+    /* Crate Type Grid */
     .crate-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
     .crate-btn {
       display: flex;
@@ -380,10 +379,7 @@
       justify-content: center;
       margin-bottom: var(--space-xs);
     }
-    .crate-icon-wrapper svg {
-      width: 44px;
-      height: 44px;
-    }
+    .crate-icon-wrapper svg { width: 44px; height: 44px; }
     .crate-name { font-size: 0.7rem; font-weight: 500; color: var(--gray-700); text-align: center; line-height: 1.3; }
     .crate-check { 
       display: none;
@@ -482,29 +478,160 @@
       backdrop-filter: blur(4px);
     }
 
-    .scanner-container { width: 100%; max-width: 400px; background: var(--gray-900); border-radius: var(--radius-xl); overflow: hidden; }
-    .scanner-header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-md) var(--space-lg); background: var(--primary); color: #fff; }
+    /* ✅ Scanner Modal - รองรับทั้ง QR และ Barcode */
+    .scanner-container { 
+      width: 100%; 
+      max-width: 400px; 
+      background: var(--gray-900); 
+      border-radius: var(--radius-xl); 
+      overflow: hidden; 
+    }
+    .scanner-header { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      padding: var(--space-md) var(--space-lg); 
+      background: var(--primary); 
+      color: #fff; 
+    }
     .scanner-title { font-size: 1rem; font-weight: 600; }
-    .btn-close { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); border: none; border-radius: var(--radius-sm); color: #fff; cursor: pointer; font-size: 1.2rem; }
-    .scanner-viewport { position: relative; height: 280px; background: #000; }
+    .btn-close { 
+      width: 36px; 
+      height: 36px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      background: rgba(255,255,255,0.2); 
+      border: none; 
+      border-radius: var(--radius-sm); 
+      color: #fff; 
+      cursor: pointer; 
+      font-size: 1.2rem; 
+    }
+    .scanner-viewport { 
+      position: relative; 
+      height: 320px; 
+      background: #000; 
+    }
     #qr-reader { width: 100%; height: 100%; }
     #qr-reader video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
-    .scanner-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-    .scanner-frame { width: 200px; height: 200px; border: 2px solid rgba(255,255,255,0.3); border-radius: var(--radius-md); position: relative; }
+    
+    /* ✅ Scanner Overlay - กรอบสแกนแบบใหม่ รองรับทั้ง QR และ Barcode */
+    .scanner-overlay { 
+      position: absolute; 
+      inset: 0; 
+      display: flex; 
+      flex-direction: column;
+      align-items: center; 
+      justify-content: center; 
+      pointer-events: none; 
+    }
+    
+    /* กรอบ QR Code (สี่เหลี่ยมจัตุรัส) */
+    .scanner-frame-qr {
+      width: 200px;
+      height: 200px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: var(--radius-md);
+      position: relative;
+      margin-bottom: 16px;
+    }
+    
+    /* กรอบ Barcode (สี่เหลี่ยมผืนผ้า) */
+    .scanner-frame-barcode {
+      width: 280px;
+      height: 80px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: var(--radius-sm);
+      position: relative;
+    }
+    
     .frame-corner { position: absolute; width: 24px; height: 24px; border: 3px solid var(--primary-light); }
     .frame-corner.top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; border-radius: 8px 0 0 0; }
     .frame-corner.top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; border-radius: 0 8px 0 0; }
     .frame-corner.bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; border-radius: 0 0 0 8px; }
     .frame-corner.bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; border-radius: 0 0 8px 0; }
-    .scan-line { position: absolute; left: 8px; right: 8px; height: 2px; background: linear-gradient(90deg, transparent, var(--primary-light), transparent); animation: scan 2s ease-in-out infinite; }
-    @keyframes scan { 0%, 100% { top: 8px; } 50% { top: calc(100% - 8px); } }
+    
+    /* เส้นสแกน QR */
+    .scan-line-qr { 
+      position: absolute; 
+      left: 8px; 
+      right: 8px; 
+      height: 2px; 
+      background: linear-gradient(90deg, transparent, var(--primary-light), transparent); 
+      animation: scanQR 2s ease-in-out infinite; 
+    }
+    @keyframes scanQR { 0%, 100% { top: 8px; } 50% { top: calc(100% - 8px); } }
+    
+    /* เส้นสแกน Barcode */
+    .scan-line-barcode { 
+      position: absolute; 
+      top: 50%;
+      transform: translateY(-50%);
+      left: 8px; 
+      right: 8px; 
+      height: 2px; 
+      background: linear-gradient(90deg, transparent, #10B981, transparent); 
+      animation: scanBarcode 1.5s ease-in-out infinite; 
+    }
+    @keyframes scanBarcode { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    
+    /* ✅ ป้ายบอกประเภทการสแกน */
+    .scan-type-labels {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .scan-type-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.8);
+    }
+    .scan-type-label svg {
+      width: 16px;
+      height: 16px;
+    }
+    .scan-type-label.qr svg { stroke: var(--primary-light); }
+    .scan-type-label.barcode svg { stroke: #10B981; }
+    
     .scanner-footer { padding: var(--space-md); }
-    .scanner-hint { text-align: center; color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: var(--space-md); }
+    .scanner-hint { 
+      text-align: center; 
+      color: rgba(255,255,255,0.6); 
+      font-size: 0.85rem; 
+      margin-bottom: var(--space-md); 
+    }
+    .scanner-hint-highlight {
+      color: var(--primary-light);
+      font-weight: 500;
+    }
     .manual-input-row { display: flex; gap: var(--space-sm); }
-    .manual-input { flex: 1; padding: 14px 16px; font-size: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: var(--radius-md); color: #fff; }
+    .manual-input { 
+      flex: 1; 
+      padding: 14px 16px; 
+      font-size: 1rem; 
+      background: rgba(255,255,255,0.1); 
+      border: 2px solid rgba(255,255,255,0.2); 
+      border-radius: var(--radius-md); 
+      color: #fff; 
+    }
     .manual-input:focus { outline: none; border-color: var(--primary-light); }
     .manual-input::placeholder { color: rgba(255,255,255,0.4); }
-    .btn-manual { padding: 14px 20px; font-size: 1rem; font-weight: 600; background: var(--primary); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; }
+    .btn-manual { 
+      padding: 14px 20px; 
+      font-size: 1rem; 
+      font-weight: 600; 
+      background: var(--primary); 
+      color: #fff; 
+      border: none; 
+      border-radius: var(--radius-md); 
+      cursor: pointer; 
+    }
 
     /* Success */
     .success-container { background: #fff; border-radius: var(--radius-xl); padding: var(--space-xl); text-align: center; max-width: 320px; width: 100%; }
@@ -643,7 +770,7 @@
     </main>
 
     <footer class="home-footer">
-      <p>เวอร์ชัน 3.2.0</p>
+      <p>เวอร์ชัน 3.3.0 - รองรับ QR Code & Barcode</p>
     </footer>
   </div>
 
@@ -681,7 +808,7 @@
         <input type="text" id="inputUser" class="input-text" placeholder="ระบุชื่อพนักงาน...">
       </section>
 
-      <!-- รหัสรถ - ไม่บังคับ -->
+      <!-- รหัสรถ -->
       <section class="form-section">
         <div class="section-header">
           <div class="section-icon">
@@ -696,7 +823,7 @@
           <span class="badge-optional">ไม่บังคับ</span>
         </div>
         <div class="input-row">
-          <input type="text" id="inputTruck" class="input-text input-mono" placeholder="สแกนหรือพิมพ์รหัสรถ...">
+          <input type="text" id="inputTruck" class="input-text input-mono" placeholder="สแกน QR/Barcode หรือพิมพ์...">
           <button class="btn-scan" data-target="truck">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -722,7 +849,7 @@
           <span class="badge-required">จำเป็น</span>
         </div>
         <div class="input-row">
-          <input type="text" id="inputTrf" class="input-text input-mono" placeholder="สแกนหรือพิมพ์เลขเอกสาร...">
+          <input type="text" id="inputTrf" class="input-text input-mono" placeholder="สแกน QR/Barcode หรือพิมพ์...">
           <button class="btn-scan" data-target="trf">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -931,30 +1058,55 @@
     </div>
   </div>
 
-  <!-- SCANNER MODAL -->
+  <!-- ✅ SCANNER MODAL - รองรับทั้ง QR Code และ Barcode -->
   <div id="modalScanner" class="modal hidden">
     <div class="scanner-container">
       <header class="scanner-header">
         <button id="btnCloseScanner" class="btn-close">✕</button>
-        <h2 id="scannerTitle" class="scanner-title">สแกน QR Code</h2>
+        <h2 id="scannerTitle" class="scanner-title">สแกน QR Code / Barcode</h2>
         <div style="width:36px"></div>
       </header>
       <div class="scanner-viewport">
         <div id="qr-reader"></div>
         <div class="scanner-overlay">
-          <div class="scanner-frame">
+          <!-- กรอบ QR Code -->
+          <div class="scanner-frame-qr">
             <div class="frame-corner top-left"></div>
             <div class="frame-corner top-right"></div>
             <div class="frame-corner bottom-left"></div>
             <div class="frame-corner bottom-right"></div>
-            <div class="scan-line"></div>
+            <div class="scan-line-qr"></div>
+          </div>
+          <!-- กรอบ Barcode -->
+          <div class="scanner-frame-barcode">
+            <div class="scan-line-barcode"></div>
+          </div>
+          <!-- ป้ายบอกประเภท -->
+          <div class="scan-type-labels">
+            <div class="scan-type-label qr">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+                <rect x="14" y="14" width="4" height="4"/>
+              </svg>
+              QR Code
+            </div>
+            <div class="scan-type-label barcode">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 5v14M6 5v14M9 5v14M12 5v14M15 5v14M18 5v14M21 5v14"/>
+              </svg>
+              Barcode
+            </div>
           </div>
         </div>
       </div>
       <div class="scanner-footer">
-        <p class="scanner-hint">วาง QR Code ให้อยู่ในกรอบ หรือพิมพ์ด้านล่าง</p>
+        <p class="scanner-hint">
+          วาง <span class="scanner-hint-highlight">QR Code</span> หรือ <span class="scanner-hint-highlight">Barcode</span> ให้อยู่ในกรอบ
+        </p>
         <div class="manual-input-row">
-          <input type="text" id="manualInput" class="manual-input" placeholder="พิมพ์รหัสที่นี่...">
+          <input type="text" id="manualInput" class="manual-input" placeholder="หรือพิมพ์รหัสที่นี่...">
           <button id="btnManual" class="btn-manual">ตกลง</button>
         </div>
       </div>
@@ -1064,7 +1216,26 @@
     // =====================================================
     const API_URL = 'https://script.google.com/macros/s/AKfycbyAmky9PAMDG2OpiU0i9uWSnkhq7fsDwftjtPM5HdV_biYv6_s_vxo7evsh-M3_1HKheQ/exec';
 
-    // SVG Tote Icon Template - ลังพลาสติกแบบมีช่องจับด้านข้าง
+    // ✅ รายการ Barcode formats ที่รองรับ (เหมือนแอพธนาคาร)
+    // ใช้ค่า number โดยตรงเพื่อหลีกเลี่ยงปัญหา library ยังไม่โหลด
+    function getSupportedFormats() {
+      return [
+        Html5QrcodeSupportedFormats.QR_CODE,
+        Html5QrcodeSupportedFormats.CODE_128,
+        Html5QrcodeSupportedFormats.CODE_39,
+        Html5QrcodeSupportedFormats.CODE_93,
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8,
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.ITF,
+        Html5QrcodeSupportedFormats.CODABAR,
+        Html5QrcodeSupportedFormats.DATA_MATRIX,
+        Html5QrcodeSupportedFormats.PDF_417,
+      ];
+    }
+
+    // SVG Tote Icon Template
     const TOTE_SVG = (color) => {
       const darkerColor = adjustColor(color, -40);
       const darkestColor = adjustColor(color, -60);
@@ -1072,41 +1243,23 @@
       
       return `
       <svg viewBox="0 0 50 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- ด้านหลังใน -->
         <path d="M6 6 L44 6 L44 32 L6 32 Z" fill="${darkestColor}"/>
-        
-        <!-- ด้านข้างขวา (3D) -->
         <path d="M44 6 L50 2 L50 28 L44 32 Z" fill="${darkerColor}"/>
-        
-        <!-- ด้านล่าง (3D) -->
         <path d="M6 32 L0 28 L50 28 L44 32 Z" fill="${darkerColor}"/>
-        
-        <!-- ด้านหน้า (สีหลัก) -->
         <path d="M0 2 L50 2 L50 28 L0 28 Z" fill="${color}"/>
-        
-        <!-- ขอบบนหนา -->
         <path d="M0 0 L50 0 L50 4 L0 4 Z" fill="${lighterColor}"/>
         <path d="M0 4 L50 4 L50 6 L0 6 Z" fill="${darkerColor}" opacity="0.3"/>
-        
-        <!-- ช่องจับซ้าย (รูปวงรี) -->
         <ellipse cx="10" cy="15" rx="5" ry="2.5" fill="${darkestColor}"/>
         <ellipse cx="10" cy="15" rx="4" ry="1.8" fill="${darkerColor}"/>
-        
-        <!-- ช่องจับขวา (รูปวงรี) -->
         <ellipse cx="40" cy="15" rx="5" ry="2.5" fill="${darkestColor}"/>
         <ellipse cx="40" cy="15" rx="4" ry="1.8" fill="${darkerColor}"/>
-        
-        <!-- เส้นลายบนลัง -->
         <line x1="0" y1="10" x2="50" y2="10" stroke="${darkerColor}" stroke-width="0.5" opacity="0.3"/>
         <line x1="0" y1="18" x2="50" y2="18" stroke="${darkerColor}" stroke-width="0.5" opacity="0.3"/>
         <line x1="0" y1="24" x2="50" y2="24" stroke="${darkerColor}" stroke-width="0.5" opacity="0.3"/>
-        
-        <!-- เงาด้านล่าง -->
         <path d="M2 28 L48 28 L48 30 L2 30 Z" fill="${darkestColor}" opacity="0.2"/>
       </svg>
     `};
     
-    // ฟังก์ชันปรับความสว่างของสี
     function adjustColor(hex, amount) {
       hex = hex.replace('#', '');
       const num = parseInt(hex, 16);
@@ -1119,7 +1272,6 @@
       return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
     }
 
-    // ประเภทลังตามภาพที่ให้มา
     const CRATE_TYPES = [
       { id: 'pink_crate', name: 'ลังสินค้าสีชมพู', color: '#EC4899' },
       { id: 'blue_basket', name: 'ตะกร้าสินค้าสีน้ำเงิน', color: '#3B82F6' },
@@ -1205,7 +1357,6 @@
       $('pageHistory').classList.toggle('hidden', page !== 'history');
     }
 
-    // Render ประเภทลังทั้ง 2 ส่วน (ขาด และ เกิน) - ใช้ Tote SVG Icon
     function renderCrateTypes() {
       const crateHtml = CRATE_TYPES.map(type => `
         <button class="crate-btn" data-id="${type.id}">
@@ -1221,13 +1372,11 @@
         </button>
       `).join('');
 
-      // Render ส่วนเกิน
       $('excessGrid').innerHTML = crateHtml;
       $$('#excessGrid .crate-btn').forEach(btn => { 
         btn.onclick = () => toggleCrate('excess', btn.dataset.id); 
       });
 
-      // Render ส่วนขาด
       $('shortageGrid').innerHTML = crateHtml;
       $$('#shortageGrid .crate-btn').forEach(btn => { 
         btn.onclick = () => toggleCrate('shortage', btn.dataset.id); 
@@ -1391,7 +1540,7 @@
     }
 
     // =====================================================
-    // QR SCANNER
+    // ✅ QR & BARCODE SCANNER - รองรับทั้ง 2 แบบ
     // =====================================================
     function openScanner(target) {
       state.scanTarget = target;
@@ -1409,15 +1558,29 @@
 
     async function startScanner() {
       try {
-        state.qrScanner = new Html5Qrcode('qr-reader');
+        // ✅ สร้าง scanner พร้อม config รองรับทั้ง QR และ Barcode
+        state.qrScanner = new Html5Qrcode('qr-reader', {
+          formatsToSupport: getSupportedFormats(),
+          verbose: false
+        });
+
         await state.qrScanner.start(
           { facingMode: 'environment' },
-          { fps: 10, qrbox: { width: 200, height: 200 } },
+          { 
+            fps: 15, // เพิ่ม FPS เพื่อสแกนเร็วขึ้น
+            qrbox: { width: 280, height: 200 }, // กรอบใหญ่ขึ้นรองรับ barcode
+            aspectRatio: 1.0,
+            disableFlip: false,
+          },
           onScanSuccess,
-          () => {}
+          () => {} // Silent error callback
         );
+        
+        console.log('✅ Scanner started - Supporting QR Code & Barcode');
+        
       } catch (err) {
         console.error('Scanner error:', err);
+        showToast('ไม่สามารถเปิดกล้องได้', 'error');
       }
     }
 
@@ -1428,21 +1591,27 @@
       }
     }
 
-    function onScanSuccess(text) {
+    function onScanSuccess(decodedText, decodedResult) {
+      // สั่นเตือนเมื่อสแกนสำเร็จ
       if (navigator.vibrate) navigator.vibrate(100);
-      applyScanResult(text);
+      
+      // ✅ แสดง Toast บอกประเภทที่สแกนได้
+      const formatName = decodedResult?.result?.format?.formatName || 'Code';
+      console.log(`✅ Scanned: ${decodedText} (${formatName})`);
+      
+      applyScanResult(decodedText, formatName);
       closeScanner();
     }
 
     function submitManual() {
       const value = $('manualInput').value.trim();
       if (value) {
-        applyScanResult(value);
+        applyScanResult(value, 'Manual');
         closeScanner();
       }
     }
 
-    function applyScanResult(value) {
+    function applyScanResult(value, formatName = '') {
       if (state.scanTarget === 'truck') {
         $('inputTruck').value = value;
         $('badgeTruck').classList.remove('hidden');
@@ -1452,7 +1621,11 @@
         $('badgeTrf').classList.remove('hidden');
         $('badgeTrf').querySelector('span').textContent = value;
       }
-      showToast('สแกนสำเร็จ', 'success');
+      
+      // แสดง Toast พร้อมบอกประเภท
+      const typeText = formatName.includes('QR') ? 'QR Code' : 
+                       formatName === 'Manual' ? 'พิมพ์เอง' : 'Barcode';
+      showToast(`สแกนสำเร็จ (${typeText})`, 'success');
     }
 
     // =====================================================
