@@ -55,7 +55,7 @@
     html { font-size: 16px; -webkit-tap-highlight-color: transparent; }
     
     body {
-      font-family: 'Prompt', sans-serif;
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
       background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
       color: var(--gray-800);
       min-height: 100vh;
@@ -63,7 +63,11 @@
       line-height: 1.6;
     }
 
-    input, textarea, button, select { font-family: 'Prompt', sans-serif; }
+    /* Force Prompt font everywhere */
+    input, textarea, button, select, div, span, p, h1, h2, h3, h4, h5, h6, label, a { 
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif !important; 
+    }
+    
     .hidden { display: none !important; }
 
     /* Loading */
@@ -207,7 +211,8 @@
     }
 
     .section-header { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
-    .section-icon { font-size: 1.25rem; }
+    .section-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+    .section-icon svg { width: 22px; height: 22px; }
     .section-title { font-size: 0.95rem; font-weight: 600; color: var(--gray-800); flex: 1; }
     .badge-required { font-size: 0.65rem; font-weight: 600; color: var(--danger); background: var(--danger-light); padding: 2px 8px; border-radius: var(--radius-full); }
     .badge-optional { font-size: 0.65rem; font-weight: 600; color: var(--gray-500); background: var(--gray-200); padding: 2px 8px; border-radius: var(--radius-full); }
@@ -228,7 +233,7 @@
       transition: all var(--transition-fast);
     }
     .photo-label:hover { border-color: var(--primary); background: var(--primary-bg); }
-    .photo-icon { font-size: 2.5rem; margin-bottom: var(--space-sm); }
+    .photo-label svg { width: 48px; height: 48px; stroke: var(--gray-400); margin-bottom: var(--space-sm); }
     .photo-text { font-size: 0.9rem; color: var(--gray-500); }
     .photo-preview { position: relative; margin-top: var(--space-md); }
     .photo-preview img { width: 100%; max-height: 250px; object-fit: cover; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
@@ -263,7 +268,7 @@
     }
     .input-text:focus { outline: none; border-color: var(--primary); background: #fff; }
     .input-text::placeholder { color: var(--gray-400); }
-    .input-mono { font-family: 'SF Mono', 'Consolas', monospace; font-weight: 500; letter-spacing: 0.5px; }
+    .input-mono { font-weight: 500; letter-spacing: 0.5px; }
 
     .input-row { display: flex; gap: var(--space-sm); }
     .input-row .input-text { flex: 1; }
@@ -295,7 +300,6 @@
       color: var(--success);
       border-radius: var(--radius-sm);
       font-size: 0.85rem;
-      font-family: monospace;
       font-weight: 500;
     }
 
@@ -337,31 +341,20 @@
       transition: all var(--transition-fast);
     }
     .status-btn:hover { border-color: var(--gray-300); }
-    .status-icon { font-size: 1.5rem; }
+    .status-btn svg { width: 28px; height: 28px; }
     .status-text { font-size: 0.9rem; font-weight: 600; color: var(--gray-700); }
 
     .status-btn.active.type-shortage { background: var(--danger); border-color: var(--danger); }
     .status-btn.active.type-shortage .status-text { color: #fff; }
+    .status-btn.active.type-shortage svg { stroke: #fff; }
     .status-btn.active.type-excess { background: var(--warning); border-color: var(--warning); }
     .status-btn.active.type-excess .status-text { color: #fff; }
+    .status-btn.active.type-excess svg { stroke: #fff; }
     .status-btn.active.type-complete { background: var(--success); border-color: var(--success); }
     .status-btn.active.type-complete .status-text { color: #fff; }
+    .status-btn.active.type-complete svg { stroke: #fff; }
 
-    /* Textarea */
-    .input-textarea {
-      width: 100%;
-      padding: 14px 16px;
-      font-size: 1rem;
-      color: var(--gray-800);
-      background: var(--gray-50);
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-md);
-      resize: vertical;
-      min-height: 100px;
-    }
-    .input-textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
-
-    /* Crate Type Grid - ใช้สำหรับทั้ง excess และ shortage */
+    /* Crate Type Grid - Tote Icons */
     .crate-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
     .crate-btn {
       display: flex;
@@ -373,19 +366,43 @@
       border-radius: var(--radius-md);
       cursor: pointer;
       transition: all var(--transition-fast);
+      position: relative;
     }
-    .crate-btn:hover { border-color: var(--gray-300); }
+    .crate-btn:hover { border-color: var(--gray-300); background: var(--gray-50); }
     .crate-btn.active { border-color: var(--primary); background: var(--primary-bg); }
-    .crate-icon { font-size: 1.8rem; margin-bottom: var(--space-xs); }
-    .crate-color { width: 28px; height: 28px; border-radius: var(--radius-sm); margin-bottom: var(--space-xs); box-shadow: inset 0 -3px 6px rgba(0,0,0,0.15); }
+    .crate-btn.active .crate-check { display: flex; }
+    
+    .crate-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-xs);
+    }
+    .crate-icon-wrapper svg {
+      width: 44px;
+      height: 44px;
+    }
     .crate-name { font-size: 0.7rem; font-weight: 500; color: var(--gray-700); text-align: center; line-height: 1.3; }
-    .crate-check { font-size: 0.65rem; color: var(--primary); margin-top: 2px; }
+    .crate-check { 
+      display: none;
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      background: var(--primary);
+      border-radius: var(--radius-full);
+      align-items: center;
+      justify-content: center;
+    }
+    .crate-check svg { width: 12px; height: 12px; stroke: #fff; stroke-width: 3; }
 
     .qty-section { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px dashed var(--gray-200); }
     .qty-title { font-size: 0.85rem; font-weight: 500; color: var(--gray-500); margin-bottom: var(--space-md); }
     .qty-item { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); background: var(--gray-50); border-radius: var(--radius-sm); margin-bottom: var(--space-sm); }
-    .qty-icon { font-size: 1.3rem; }
-    .qty-color { width: 20px; height: 20px; border-radius: var(--radius-sm); }
+    .qty-item svg { width: 28px; height: 28px; flex-shrink: 0; }
     .qty-name { flex: 1; font-size: 0.85rem; font-weight: 500; }
     .qty-input { width: 72px; padding: var(--space-sm); font-size: 1rem; font-weight: 600; text-align: center; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); }
     .qty-input:focus { outline: none; border-color: var(--primary); }
@@ -396,7 +413,8 @@
     .qty-total.excess { color: var(--warning); }
 
     .complete-display { text-align: center; padding: var(--space-xl); }
-    .complete-icon { font-size: 4rem; animation: bounce 0.6s ease; }
+    .complete-icon { width: 80px; height: 80px; margin: 0 auto; animation: bounce 0.6s ease; }
+    .complete-icon svg { width: 100%; height: 100%; stroke: var(--success); }
     .complete-text { font-size: 1.2rem; font-weight: 700; color: var(--success); margin-top: var(--space-sm); }
     @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
@@ -423,8 +441,13 @@
       border: 2px solid var(--gray-200);
       border-radius: var(--radius-md);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
     }
     .btn-clear:hover { border-color: var(--gray-300); background: var(--gray-50); }
+    .btn-clear svg { width: 20px; height: 20px; stroke: currentColor; }
 
     .btn-submit {
       flex: 2;
@@ -437,9 +460,14 @@
       border-radius: var(--radius-md);
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(99,102,241,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
     }
     .btn-submit:hover { transform: translateY(-1px); }
     .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-submit svg { width: 20px; height: 20px; stroke: currentColor; }
 
     /* Modal */
     .modal {
@@ -480,7 +508,8 @@
 
     /* Success */
     .success-container { background: #fff; border-radius: var(--radius-xl); padding: var(--space-xl); text-align: center; max-width: 320px; width: 100%; }
-    .success-icon-wrapper { width: 80px; height: 80px; background: var(--success-light); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-lg); font-size: 2.5rem; animation: pop 0.4s ease; }
+    .success-icon-wrapper { width: 80px; height: 80px; background: var(--success-light); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-lg); animation: pop 0.4s ease; }
+    .success-icon-wrapper svg { width: 40px; height: 40px; stroke: var(--success); }
     @keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.1); } 100% { transform: scale(1); } }
     .success-title { font-size: 1.4rem; font-weight: 700; color: var(--success); margin-bottom: var(--space-sm); }
     .success-time { font-size: 0.9rem; color: var(--gray-500); margin-bottom: var(--space-lg); }
@@ -488,7 +517,8 @@
 
     /* Error */
     .error-container { background: #fff; border-radius: var(--radius-xl); padding: var(--space-xl); text-align: center; max-width: 320px; width: 100%; }
-    .error-icon-wrapper { width: 70px; height: 70px; background: var(--danger-light); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md); font-size: 2rem; }
+    .error-icon-wrapper { width: 70px; height: 70px; background: var(--danger-light); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md); }
+    .error-icon-wrapper svg { width: 32px; height: 32px; stroke: var(--danger); }
     .error-title { font-size: 1.2rem; font-weight: 700; color: var(--danger); margin-bottom: var(--space-sm); }
     .error-message { font-size: 0.9rem; color: var(--gray-500); margin-bottom: var(--space-lg); line-height: 1.6; }
     .btn-error { width: 100%; padding: var(--space-md); font-size: 1rem; font-weight: 600; background: var(--danger); color: #fff; border: none; border-radius: var(--radius-md); cursor: pointer; }
@@ -512,19 +542,25 @@
     .history-loading { text-align: center; padding: var(--space-2xl); color: var(--gray-500); }
     .history-loading .saving-spinner { margin: 0 auto var(--space-md); border-color: var(--gray-200); border-top-color: var(--primary); }
     .history-empty { text-align: center; padding: var(--space-2xl); color: var(--gray-500); }
-    .empty-icon { font-size: 4rem; margin-bottom: var(--space-md); }
+    .empty-icon { width: 80px; height: 80px; margin: 0 auto var(--space-md); }
+    .empty-icon svg { width: 100%; height: 100%; stroke: var(--gray-300); }
     .history-list { display: flex; flex-direction: column; gap: var(--space-sm); }
 
     .history-card-mini { background: #fff; border-radius: var(--radius-md); padding: var(--space-md); box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: var(--space-md); cursor: pointer; transition: all var(--transition-fast); }
     .history-card-mini:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-    .mini-status { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .mini-status { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .mini-status svg { width: 24px; height: 24px; }
     .mini-status.complete { background: var(--success-light); }
+    .mini-status.complete svg { stroke: var(--success); }
     .mini-status.excess { background: var(--warning-light); }
+    .mini-status.excess svg { stroke: var(--warning); }
     .mini-status.shortage { background: var(--danger-light); }
+    .mini-status.shortage svg { stroke: var(--danger); }
     .mini-info { flex: 1; min-width: 0; }
     .mini-title { font-size: 0.95rem; font-weight: 600; color: var(--gray-800); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mini-sub { font-size: 0.8rem; color: var(--gray-500); margin-top: 2px; }
-    .mini-arrow { color: var(--gray-400); font-size: 1.2rem; }
+    .mini-arrow { color: var(--gray-400); }
+    .mini-arrow svg { width: 20px; height: 20px; stroke: currentColor; }
 
     /* Detail */
     .detail-container { background: #fff; border-radius: var(--radius-xl); width: 100%; max-width: 400px; max-height: 85vh; overflow: hidden; }
@@ -535,7 +571,8 @@
     .detail-status.complete { background: var(--success-light); color: var(--success); }
     .detail-status.excess { background: var(--warning-light); color: var(--warning); }
     .detail-status.shortage { background: var(--danger-light); color: var(--danger); }
-    .detail-status-icon { font-size: 2.5rem; }
+    .detail-status-icon { width: 48px; height: 48px; margin: 0 auto; }
+    .detail-status-icon svg { width: 100%; height: 100%; }
     .detail-status-text { font-size: 1.1rem; font-weight: 600; margin-top: var(--space-xs); }
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
     .detail-item { padding: var(--space-sm); background: var(--gray-50); border-radius: var(--radius-sm); }
@@ -579,14 +616,14 @@
     <main>
       <div class="card-start">
         <button id="btnStart" class="btn-start">
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
             <circle cx="12" cy="13" r="4"/>
           </svg>
           เริ่มตรวจสอบ
         </button>
         <button id="btnHistory" class="btn-history">
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/>
@@ -598,22 +635,38 @@
     </main>
 
     <footer class="home-footer">
-      <p>เวอร์ชัน 3.1.0</p>
+      <p>เวอร์ชัน 3.2.0</p>
     </footer>
   </div>
 
   <!-- FORM PAGE -->
   <div id="pageForm" class="page-form hidden">
     <header class="form-header">
-      <button id="btnBack" class="btn-icon"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
+      <button id="btnBack" class="btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+      </button>
       <h1 class="form-header-title">บันทึกการตรวจสอบ</h1>
-      <button id="btnReset" class="btn-icon"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+      <button id="btnReset" class="btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+      </button>
     </header>
 
     <div class="form-body">
+      <!-- พนักงานที่สุ่มตรวจ -->
       <section class="form-section">
         <div class="section-header">
-          <span class="section-icon">👤</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
           <span class="section-title">พนักงานที่สุ่มตรวจ</span>
           <span class="badge-required">จำเป็น</span>
         </div>
@@ -623,33 +676,63 @@
       <!-- รหัสรถ - ไม่บังคับ -->
       <section class="form-section">
         <div class="section-header">
-          <span class="section-icon">🚛</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2">
+              <rect x="1" y="3" width="15" height="13" rx="2"/>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
           <span class="section-title">รหัสรถ (Truck ID)</span>
           <span class="badge-optional">ไม่บังคับ</span>
         </div>
         <div class="input-row">
           <input type="text" id="inputTruck" class="input-text input-mono" placeholder="สแกนหรือพิมพ์รหัสรถ...">
-          <button class="btn-scan" data-target="truck"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
+          <button class="btn-scan" data-target="truck">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M7 7h.01M7 12h.01M7 17h.01M12 7h.01M12 12h.01M12 17h.01M17 7h.01M17 12h.01M17 17h.01"/>
+            </svg>
+          </button>
         </div>
         <div id="badgeTruck" class="scanned-badge hidden">✓ <span></span></div>
       </section>
 
+      <!-- เอกสาร TRF -->
       <section class="form-section">
         <div class="section-header">
-          <span class="section-icon">📄</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
           <span class="section-title">เอกสาร TRF</span>
           <span class="badge-required">จำเป็น</span>
         </div>
         <div class="input-row">
           <input type="text" id="inputTrf" class="input-text input-mono" placeholder="สแกนหรือพิมพ์เลขเอกสาร...">
-          <button class="btn-scan" data-target="trf"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
+          <button class="btn-scan" data-target="trf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M7 7h.01M7 12h.01M7 17h.01M12 7h.01M12 12h.01M12 17h.01M17 7h.01M17 12h.01M17 17h.01"/>
+            </svg>
+          </button>
         </div>
         <div id="badgeTrf" class="scanned-badge hidden">✓ <span></span></div>
       </section>
 
+      <!-- จำนวนลัง -->
       <section class="form-section">
         <div class="section-header">
-          <span class="section-icon">📦</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
+          </div>
           <span class="section-title">จำนวนลัง</span>
           <span class="badge-required">จำเป็น</span>
         </div>
@@ -667,23 +750,55 @@
         <div id="diffResult" class="diff-result hidden">ผลต่าง: <span id="diffValue">0</span></div>
       </section>
 
+      <!-- สถานะการตรวจ -->
       <section class="form-section">
         <div class="section-header">
-          <span class="section-icon">📋</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
           <span class="section-title">สถานะการตรวจ</span>
           <span class="badge-required">จำเป็น</span>
         </div>
         <div class="status-grid">
-          <button class="status-btn type-shortage" data-status="ขาด"><span class="status-icon">❌</span><span class="status-text">ขาด</span></button>
-          <button class="status-btn type-excess" data-status="เกิน"><span class="status-icon">➕</span><span class="status-text">เกิน</span></button>
-          <button class="status-btn type-complete" data-status="ครบ"><span class="status-icon">✅</span><span class="status-text">ครบ</span></button>
+          <button class="status-btn type-shortage" data-status="ขาด">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+            <span class="status-text">ขาด</span>
+          </button>
+          <button class="status-btn type-excess" data-status="เกิน">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            <span class="status-text">เกิน</span>
+          </button>
+          <button class="status-btn type-complete" data-status="ครบ">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span class="status-text">ครบ</span>
+          </button>
         </div>
       </section>
 
-      <!-- ส่วนขาด - เลือกประเภทลังได้ -->
+      <!-- ส่วนขาด -->
       <section id="sectionShortage" class="form-section hidden">
         <div class="section-header">
-          <span class="section-icon">📝</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+          </div>
           <span class="section-title">ประเภทลังที่ขาด</span>
         </div>
         <div id="shortageGrid" class="crate-grid"></div>
@@ -694,10 +809,16 @@
         </div>
       </section>
 
-      <!-- ส่วนเกิน - เลือกประเภทลังได้ -->
+      <!-- ส่วนเกิน -->
       <section id="sectionExcess" class="form-section hidden">
         <div class="section-header">
-          <span class="section-icon">🏷️</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+          </div>
           <span class="section-title">ประเภทลังที่เกิน</span>
         </div>
         <div id="excessGrid" class="crate-grid"></div>
@@ -708,32 +829,54 @@
         </div>
       </section>
 
+      <!-- ส่วนครบ -->
       <section id="sectionComplete" class="form-section hidden">
         <div class="complete-display">
-          <div class="complete-icon">✅</div>
+          <div class="complete-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
           <div class="complete-text">ลังครบถ้วน</div>
         </div>
       </section>
 
+      <!-- เลข WT -->
       <section class="form-section">
         <div class="section-header">
-          <span class="section-icon">🔢</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+          </div>
           <span class="section-title">เลข WT ที่ต้องรับ</span>
-          <span class="badge-required">จำเป็น</span>
+          <span class="badge-optional">ไม่บังคับ</span>
         </div>
         <input type="text" id="inputWt" class="input-text input-mono" placeholder="ระบุเลข WT...">
       </section>
 
+      <!-- รูปภาพ -->
       <section class="form-section">
         <div class="section-header">
-          <span class="section-icon">📷</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
           <span class="section-title">แนบรูปภาพ</span>
           <span class="badge-optional">ไม่บังคับ</span>
         </div>
         <div class="photo-upload">
           <input type="file" id="inputPhoto" accept="image/*" capture="environment" class="photo-input">
           <label for="inputPhoto" class="photo-label">
-            <div class="photo-icon">📷</div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
             <div class="photo-text">ถ่ายรูป หรือ เลือกจากอัลบั้ม</div>
           </label>
           <div id="photoPreview" class="photo-preview hidden">
@@ -743,9 +886,17 @@
         </div>
       </section>
 
+      <!-- ลงชื่อผู้สุ่มตรวจ -->
       <section class="form-section">
         <div class="section-header">
-          <span class="section-icon">✍️</span>
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2">
+              <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+              <path d="M2 2l7.586 7.586"/>
+              <circle cx="11" cy="11" r="2"/>
+            </svg>
+          </div>
           <span class="section-title">ลงชื่อผู้สุ่มตรวจ</span>
           <span class="badge-required">จำเป็น</span>
         </div>
@@ -754,8 +905,21 @@
     </div>
 
     <div class="form-actions">
-      <button id="btnClear" class="btn-clear">🔄 ล้างข้อมูล</button>
-      <button id="btnSubmit" class="btn-submit">💾 บันทึก</button>
+      <button id="btnClear" class="btn-clear">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+        ล้างข้อมูล
+      </button>
+      <button id="btnSubmit" class="btn-submit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        บันทึก
+      </button>
     </div>
   </div>
 
@@ -792,7 +956,12 @@
   <!-- SUCCESS MODAL -->
   <div id="modalSuccess" class="modal hidden">
     <div class="success-container">
-      <div class="success-icon-wrapper">✅</div>
+      <div class="success-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
       <h3 class="success-title">บันทึกสำเร็จ!</h3>
       <p class="success-time" id="successTime"></p>
       <button id="btnContinue" class="btn-continue">ตรวจสอบรายการต่อไป</button>
@@ -802,7 +971,13 @@
   <!-- ERROR MODAL -->
   <div id="modalError" class="modal hidden">
     <div class="error-container">
-      <div class="error-icon-wrapper">⚠️</div>
+      <div class="error-icon-wrapper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
       <h3 class="error-title">เกิดข้อผิดพลาด</h3>
       <p class="error-message" id="errorMessage"></p>
       <button id="btnErrorClose" class="btn-error">ตกลง</button>
@@ -818,13 +993,36 @@
   <!-- HISTORY PAGE -->
   <div id="pageHistory" class="page-history hidden">
     <header class="form-header">
-      <button id="btnBackHistory" class="btn-icon"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
+      <button id="btnBackHistory" class="btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+      </button>
       <h1 class="form-header-title">รายการที่บันทึก</h1>
-      <button id="btnRefreshHistory" class="btn-icon"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+      <button id="btnRefreshHistory" class="btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+      </button>
     </header>
     <div class="history-body">
-      <div id="historyLoading" class="history-loading"><div class="saving-spinner"></div><p>กำลังโหลดข้อมูล...</p></div>
-      <div id="historyEmpty" class="history-empty hidden"><div class="empty-icon">📋</div><p>ยังไม่มีรายการที่บันทึก</p></div>
+      <div id="historyLoading" class="history-loading">
+        <div class="saving-spinner"></div>
+        <p>กำลังโหลดข้อมูล...</p>
+      </div>
+      <div id="historyEmpty" class="history-empty hidden">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <p>ยังไม่มีรายการที่บันทึก</p>
+      </div>
       <div id="historyList" class="history-list hidden"></div>
     </div>
   </div>
@@ -858,17 +1056,28 @@
     // =====================================================
     const API_URL = 'https://script.google.com/macros/s/AKfycbyAmky9PAMDG2OpiU0i9uWSnkhq7fsDwftjtPM5HdV_biYv6_s_vxo7evsh-M3_1HKheQ/exec';
 
-    // ประเภทลังตามภาพที่ให้มา - พร้อมไอคอน
+    // SVG Tote Icon Template
+    const TOTE_SVG = (color) => `
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="6" width="20" height="14" rx="2" fill="${color}" stroke="${color}" stroke-width="0.5"/>
+        <rect x="4" y="8" width="16" height="10" rx="1" fill="${color}" stroke="white" stroke-width="0.5" opacity="0.3"/>
+        <path d="M6 6V4C6 2.89543 6.89543 2 8 2H16C17.1046 2 18 2.89543 18 4V6" stroke="${color}" stroke-width="2" stroke-linecap="round"/>
+        <line x1="2" y1="10" x2="22" y2="10" stroke="white" stroke-width="0.5" opacity="0.5"/>
+        <rect x="9" y="12" width="6" height="4" rx="0.5" fill="white" opacity="0.3"/>
+      </svg>
+    `;
+
+    // ประเภทลังตามภาพที่ให้มา
     const CRATE_TYPES = [
-      { id: 'pink_crate', name: 'ลังสินค้าสีชมพู', color: '#EC4899', icon: '📦' },
-      { id: 'blue_basket', name: 'ตะกร้าสินค้าสีน้ำเงิน', color: '#3B82F6', icon: '🧺' },
-      { id: 'green_basket', name: 'ตะกร้าสินค้าสีเขียว', color: '#22C55E', icon: '🧺' },
-      { id: 'green_crate', name: 'ลังสินค้าสีเขียว', color: '#16A34A', icon: '📦' },
-      { id: 'blue_crate', name: 'ลังสินค้าสีน้ำเงิน', color: '#2563EB', icon: '📦' },
-      { id: 'yellow_crate', name: 'ลังสินค้าสีเหลือง', color: '#EAB308', icon: '📦' },
-      { id: 'brown_basket', name: 'ตะกร้าสินค้าสีน้ำตาล', color: '#92400E', icon: '🧺' },
-      { id: 'green_fairy', name: 'ลังแฟรีสีเขียว', color: '#10B981', icon: '🗃️' },
-      { id: 'gray_crate', name: 'ลังสินค้าสีเทา', color: '#6B7280', icon: '📦' },
+      { id: 'pink_crate', name: 'ลังสินค้าสีชมพู', color: '#EC4899' },
+      { id: 'blue_basket', name: 'ตะกร้าสินค้าสีน้ำเงิน', color: '#3B82F6' },
+      { id: 'green_basket', name: 'ตะกร้าสินค้าสีเขียว', color: '#22C55E' },
+      { id: 'green_crate', name: 'ลังสินค้าสีเขียว', color: '#16A34A' },
+      { id: 'blue_crate', name: 'ลังสินค้าสีน้ำเงิน', color: '#2563EB' },
+      { id: 'yellow_crate', name: 'ลังสินค้าสีเหลือง', color: '#EAB308' },
+      { id: 'brown_basket', name: 'ตะกร้าสินค้าสีน้ำตาล', color: '#92400E' },
+      { id: 'green_fairy', name: 'ลังแฟรีสีเขียว', color: '#10B981' },
+      { id: 'gray_crate', name: 'ลังสินค้าสีเทา', color: '#6B7280' },
     ];
 
     const state = {
@@ -944,14 +1153,19 @@
       $('pageHistory').classList.toggle('hidden', page !== 'history');
     }
 
-    // Render ประเภทลังทั้ง 2 ส่วน (ขาด และ เกิน)
+    // Render ประเภทลังทั้ง 2 ส่วน (ขาด และ เกิน) - ใช้ Tote SVG Icon
     function renderCrateTypes() {
       const crateHtml = CRATE_TYPES.map(type => `
         <button class="crate-btn" data-id="${type.id}">
-          <div class="crate-icon">${type.icon}</div>
-          <div class="crate-color" style="background:${type.color}"></div>
+          <div class="crate-icon-wrapper">
+            ${TOTE_SVG(type.color)}
+          </div>
           <div class="crate-name">${type.name}</div>
-          <div class="crate-check hidden">✓</div>
+          <div class="crate-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
         </button>
       `).join('');
 
@@ -971,17 +1185,14 @@
     function toggleCrate(type, id) {
       const gridId = type === 'excess' ? 'excessGrid' : 'shortageGrid';
       const btn = document.querySelector(`#${gridId} .crate-btn[data-id="${id}"]`);
-      const check = btn.querySelector('.crate-check');
       const selectedObj = type === 'excess' ? state.selectedExcess : state.selectedShortage;
 
       if (selectedObj[id] !== undefined) {
         delete selectedObj[id];
         btn.classList.remove('active');
-        check.classList.add('hidden');
       } else {
         selectedObj[id] = 1;
         btn.classList.add('active');
-        check.classList.remove('hidden');
       }
 
       updateQtySection(type);
@@ -992,7 +1203,6 @@
       const selectedIds = Object.keys(selectedObj);
       const qtySectionId = type === 'excess' ? 'excessQtySection' : 'shortageQtySection';
       const qtyListId = type === 'excess' ? 'excessQtyList' : 'shortageQtyList';
-      const totalQtyId = type === 'excess' ? 'totalExcessQty' : 'totalShortageQty';
 
       if (selectedIds.length === 0) {
         $(qtySectionId).classList.add('hidden');
@@ -1006,8 +1216,7 @@
         const qty = selectedObj[id] || 1;
         return `
           <div class="qty-item">
-            <div class="qty-icon">${crateType?.icon || '📦'}</div>
-            <div class="qty-color" style="background:${crateType?.color || '#ccc'}"></div>
+            ${TOTE_SVG(crateType?.color || '#ccc')}
             <div class="qty-name">${crateType?.name || id}</div>
             <input type="number" class="qty-input" data-type="${type}" data-id="${id}" value="${qty}" min="1" inputmode="numeric">
             <span class="qty-unit">ใบ</span>
@@ -1041,22 +1250,15 @@
       $('sectionExcess').classList.toggle('hidden', status !== 'เกิน');
       $('sectionComplete').classList.toggle('hidden', status !== 'ครบ');
 
-      // Reset selections when changing status
       if (status !== 'เกิน') {
         state.selectedExcess = {};
-        $$('#excessGrid .crate-btn').forEach(btn => {
-          btn.classList.remove('active');
-          btn.querySelector('.crate-check').classList.add('hidden');
-        });
+        $$('#excessGrid .crate-btn').forEach(btn => btn.classList.remove('active'));
         $('excessQtySection').classList.add('hidden');
       }
 
       if (status !== 'ขาด') {
         state.selectedShortage = {};
-        $$('#shortageGrid .crate-btn').forEach(btn => {
-          btn.classList.remove('active');
-          btn.querySelector('.crate-check').classList.add('hidden');
-        });
+        $$('#shortageGrid .crate-btn').forEach(btn => btn.classList.remove('active'));
         $('shortageQtySection').classList.add('hidden');
       }
     }
@@ -1206,14 +1408,12 @@
     // =====================================================
     function validateForm() {
       if (!$('inputUser').value.trim()) return 'กรุณาระบุชื่อพนักงานที่สุ่มตรวจ';
-      // รหัสรถไม่บังคับแล้ว
       if (!$('inputTrf').value.trim()) return 'กรุณาสแกนหรือระบุเลขเอกสาร TRF';
       if (!$('inputInitial').value) return 'กรุณาระบุจำนวนลังตั้งต้น';
       if (!$('inputReceived').value) return 'กรุณาระบุจำนวนลังที่รับ';
       if (!state.selectedStatus) return 'กรุณาเลือกสถานะการตรวจ';
       if (state.selectedStatus === 'ขาด' && Object.keys(state.selectedShortage).length === 0) return 'กรุณาเลือกประเภทลังที่ขาด';
       if (state.selectedStatus === 'เกิน' && Object.keys(state.selectedExcess).length === 0) return 'กรุณาเลือกประเภทลังที่เกิน';
-      if (!$('inputWt').value.trim()) return 'กรุณาระบุเลข WT';
       if (!$('inputInspector').value.trim()) return 'กรุณาลงชื่อผู้สุ่มตรวจ';
       return null;
     }
@@ -1274,7 +1474,7 @@
         if (result.success) {
           let successMsg = `ใช้เวลา ${elapsed} มิลลิวินาที`;
           if (result.photoUrl) {
-            successMsg += '\n📷 รูปภาพถูกบันทึกแล้ว';
+            successMsg += '\nรูปภาพถูกบันทึกแล้ว';
           }
           showSuccess(successMsg);
         } else {
@@ -1311,10 +1511,7 @@
       removePhoto();
 
       $$('.status-btn').forEach(btn => btn.classList.remove('active'));
-      $$('.crate-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.querySelector('.crate-check').classList.add('hidden');
-      });
+      $$('.crate-btn').forEach(btn => btn.classList.remove('active'));
     }
 
     function clearFormPartial() {
@@ -1401,21 +1598,32 @@
 
       const html = records.map((record, index) => {
         let statusClass = '';
-        let statusIcon = '📋';
-        if (record.statusComplete) { statusClass = 'complete'; statusIcon = '✅'; }
-        else if (record.statusExcess) { statusClass = 'excess'; statusIcon = '➕'; }
-        else if (record.statusShortage) { statusClass = 'shortage'; statusIcon = '❌'; }
+        let statusSvg = '';
+        if (record.statusComplete) { 
+          statusClass = 'complete'; 
+          statusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+        } else if (record.statusExcess) { 
+          statusClass = 'excess'; 
+          statusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>';
+        } else if (record.statusShortage) { 
+          statusClass = 'shortage'; 
+          statusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+        }
 
         const displayDate = formatDisplayDate(record.timestamp);
 
         return `
           <div class="history-card-mini" onclick="showDetail(${index})">
-            <div class="mini-status ${statusClass}">${statusIcon}</div>
+            <div class="mini-status ${statusClass}">${statusSvg}</div>
             <div class="mini-info">
-              <div class="mini-title">🚛 ${record.truckId || '-'} | 📄 ${record.trfDoc || '-'}</div>
-              <div class="mini-sub">🕐 ${displayDate}</div>
+              <div class="mini-title">${record.truckId ? record.truckId + ' | ' : ''}${record.trfDoc || '-'}</div>
+              <div class="mini-sub">${displayDate}</div>
             </div>
-            <div class="mini-arrow">›</div>
+            <div class="mini-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </div>
           </div>
         `;
       }).join('');
@@ -1428,11 +1636,21 @@
       if (!record) return;
 
       let statusClass = '';
-      let statusIcon = '📋';
+      let statusSvg = '';
       let statusText = '-';
-      if (record.statusComplete) { statusClass = 'complete'; statusIcon = '✅'; statusText = 'ลังครบถ้วน'; }
-      else if (record.statusExcess) { statusClass = 'excess'; statusIcon = '➕'; statusText = 'ลังเกิน'; }
-      else if (record.statusShortage) { statusClass = 'shortage'; statusIcon = '❌'; statusText = 'ลังขาด'; }
+      if (record.statusComplete) { 
+        statusClass = 'complete'; 
+        statusText = 'ลังครบถ้วน'; 
+        statusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+      } else if (record.statusExcess) { 
+        statusClass = 'excess'; 
+        statusText = 'ลังเกิน'; 
+        statusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>';
+      } else if (record.statusShortage) { 
+        statusClass = 'shortage'; 
+        statusText = 'ลังขาด'; 
+        statusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+      }
 
       const photoUrl = convertPhotoUrl(record.photoUrl);
       const photoHtml = photoUrl ? `
@@ -1452,30 +1670,30 @@
 
       const html = `
         <div class="detail-status ${statusClass}">
-          <div class="detail-status-icon">${statusIcon}</div>
+          <div class="detail-status-icon">${statusSvg}</div>
           <div class="detail-status-text">${statusText}</div>
         </div>
 
         <div class="detail-grid">
           <div class="detail-item full">
             <div class="detail-label">วันที่-เวลา</div>
-            <div class="detail-value">🕐 ${displayDate}</div>
+            <div class="detail-value">${displayDate}</div>
           </div>
           <div class="detail-item">
             <div class="detail-label">รหัสรถ</div>
-            <div class="detail-value">🚛 ${record.truckId || '-'}</div>
+            <div class="detail-value">${record.truckId || '-'}</div>
           </div>
           <div class="detail-item">
             <div class="detail-label">เอกสาร TRF</div>
-            <div class="detail-value">📄 ${record.trfDoc || '-'}</div>
+            <div class="detail-value">${record.trfDoc || '-'}</div>
           </div>
           <div class="detail-item">
             <div class="detail-label">ลังตั้งต้น</div>
-            <div class="detail-value">📦 ${record.initialCrates || 0}</div>
+            <div class="detail-value">${record.initialCrates || 0}</div>
           </div>
           <div class="detail-item">
             <div class="detail-label">ลังที่รับ</div>
-            <div class="detail-value">📦 ${record.receivedCrates || 0}</div>
+            <div class="detail-value">${record.receivedCrates || 0}</div>
           </div>
           <div class="detail-item">
             <div class="detail-label">ผลต่าง</div>
@@ -1483,7 +1701,7 @@
           </div>
           <div class="detail-item">
             <div class="detail-label">เลข WT</div>
-            <div class="detail-value">🔢 ${record.wtNumber || '-'}</div>
+            <div class="detail-value">${record.wtNumber || '-'}</div>
           </div>
           ${extraInfo}
         </div>
@@ -1491,7 +1709,7 @@
         ${photoHtml}
 
         <div class="detail-footer">
-          <span>✍️ ผู้ตรวจ:</span>
+          <span>ผู้ตรวจ:</span>
           <strong>${record.inspectorName || '-'}</strong>
         </div>
       `;
