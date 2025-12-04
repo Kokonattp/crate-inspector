@@ -510,13 +510,13 @@
     }
     .scanner-viewport { 
       position: relative; 
-      height: 320px; 
+      height: 300px; 
       background: #000; 
     }
     #qr-reader { width: 100%; height: 100%; }
     #qr-reader video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
     
-    /* ✅ Scanner Overlay - กรอบสแกนแบบใหม่ รองรับทั้ง QR และ Barcode */
+    /* ✅ Scanner Overlay - กรอบเดียว สแกนได้ทั้ง QR และ Barcode */
     .scanner-overlay { 
       position: absolute; 
       inset: 0; 
@@ -527,88 +527,43 @@
       pointer-events: none; 
     }
     
-    /* กรอบ QR Code (สี่เหลี่ยมจัตุรัส) */
-    .scanner-frame-qr {
-      width: 200px;
-      height: 200px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: var(--radius-md);
-      position: relative;
-      margin-bottom: 16px;
-    }
-    
-    /* กรอบ Barcode (สี่เหลี่ยมผืนผ้า) */
-    .scanner-frame-barcode {
-      width: 280px;
-      height: 80px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: var(--radius-sm);
+    /* กรอบสแกนเดียว */
+    .scanner-frame {
+      width: 260px;
+      height: 260px;
       position: relative;
     }
     
-    .frame-corner { position: absolute; width: 24px; height: 24px; border: 3px solid var(--primary-light); }
-    .frame-corner.top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; border-radius: 8px 0 0 0; }
-    .frame-corner.top-right { top: -2px; right: -2px; border-left: none; border-bottom: none; border-radius: 0 8px 0 0; }
-    .frame-corner.bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; border-radius: 0 0 0 8px; }
-    .frame-corner.bottom-right { bottom: -2px; right: -2px; border-left: none; border-top: none; border-radius: 0 0 8px 0; }
-    
-    /* เส้นสแกน QR */
-    .scan-line-qr { 
+    .frame-corner { 
       position: absolute; 
-      left: 8px; 
-      right: 8px; 
-      height: 2px; 
-      background: linear-gradient(90deg, transparent, var(--primary-light), transparent); 
-      animation: scanQR 2s ease-in-out infinite; 
+      width: 30px; 
+      height: 30px; 
+      border: 4px solid #fff; 
     }
-    @keyframes scanQR { 0%, 100% { top: 8px; } 50% { top: calc(100% - 8px); } }
+    .frame-corner.top-left { top: 0; left: 0; border-right: none; border-bottom: none; border-radius: 8px 0 0 0; }
+    .frame-corner.top-right { top: 0; right: 0; border-left: none; border-bottom: none; border-radius: 0 8px 0 0; }
+    .frame-corner.bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; border-radius: 0 0 0 8px; }
+    .frame-corner.bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; border-radius: 0 0 8px 0; }
     
-    /* เส้นสแกน Barcode */
-    .scan-line-barcode { 
+    /* เส้นสแกน */
+    .scan-line { 
       position: absolute; 
-      top: 50%;
-      transform: translateY(-50%);
-      left: 8px; 
-      right: 8px; 
-      height: 2px; 
-      background: linear-gradient(90deg, transparent, #10B981, transparent); 
-      animation: scanBarcode 1.5s ease-in-out infinite; 
+      left: 10px; 
+      right: 10px; 
+      height: 3px; 
+      background: linear-gradient(90deg, transparent, #10B981, #10B981, transparent); 
+      border-radius: 2px;
+      box-shadow: 0 0 10px #10B981;
+      animation: scan 2s ease-in-out infinite; 
     }
-    @keyframes scanBarcode { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-    
-    /* ✅ ป้ายบอกประเภทการสแกน */
-    .scan-type-labels {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-    }
-    .scan-type-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.8);
-    }
-    .scan-type-label svg {
-      width: 16px;
-      height: 16px;
-    }
-    .scan-type-label.qr svg { stroke: var(--primary-light); }
-    .scan-type-label.barcode svg { stroke: #10B981; }
+    @keyframes scan { 0%, 100% { top: 10px; opacity: 1; } 50% { top: calc(100% - 10px); opacity: 0.8; } }
     
     .scanner-footer { padding: var(--space-md); }
     .scanner-hint { 
       text-align: center; 
-      color: rgba(255,255,255,0.6); 
-      font-size: 0.85rem; 
+      color: rgba(255,255,255,0.7); 
+      font-size: 0.9rem; 
       margin-bottom: var(--space-md); 
-    }
-    .scanner-hint-highlight {
-      color: var(--primary-light);
-      font-weight: 500;
     }
     .manual-input-row { display: flex; gap: var(--space-sm); }
     .manual-input { 
@@ -1069,42 +1024,18 @@
       <div class="scanner-viewport">
         <div id="qr-reader"></div>
         <div class="scanner-overlay">
-          <!-- กรอบ QR Code -->
-          <div class="scanner-frame-qr">
+          <!-- กรอบเดียว สแกนได้ทั้ง QR และ Barcode -->
+          <div class="scanner-frame">
             <div class="frame-corner top-left"></div>
             <div class="frame-corner top-right"></div>
             <div class="frame-corner bottom-left"></div>
             <div class="frame-corner bottom-right"></div>
-            <div class="scan-line-qr"></div>
-          </div>
-          <!-- กรอบ Barcode -->
-          <div class="scanner-frame-barcode">
-            <div class="scan-line-barcode"></div>
-          </div>
-          <!-- ป้ายบอกประเภท -->
-          <div class="scan-type-labels">
-            <div class="scan-type-label qr">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-                <rect x="14" y="14" width="4" height="4"/>
-              </svg>
-              QR Code
-            </div>
-            <div class="scan-type-label barcode">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 5v14M6 5v14M9 5v14M12 5v14M15 5v14M18 5v14M21 5v14"/>
-              </svg>
-              Barcode
-            </div>
+            <div class="scan-line"></div>
           </div>
         </div>
       </div>
       <div class="scanner-footer">
-        <p class="scanner-hint">
-          วาง <span class="scanner-hint-highlight">QR Code</span> หรือ <span class="scanner-hint-highlight">Barcode</span> ให้อยู่ในกรอบ
-        </p>
+        <p class="scanner-hint">สแกน QR Code หรือ Barcode</p>
         <div class="manual-input-row">
           <input type="text" id="manualInput" class="manual-input" placeholder="หรือพิมพ์รหัสที่นี่...">
           <button id="btnManual" class="btn-manual">ตกลง</button>
@@ -1567,16 +1498,16 @@
         await state.qrScanner.start(
           { facingMode: 'environment' },
           { 
-            fps: 15, // เพิ่ม FPS เพื่อสแกนเร็วขึ้น
-            qrbox: { width: 280, height: 200 }, // กรอบใหญ่ขึ้นรองรับ barcode
+            fps: 15,
+            qrbox: { width: 250, height: 250 },
             aspectRatio: 1.0,
             disableFlip: false,
           },
           onScanSuccess,
-          () => {} // Silent error callback
+          () => {}
         );
         
-        console.log('✅ Scanner started - Supporting QR Code & Barcode');
+        console.log('✅ Scanner ready');
         
       } catch (err) {
         console.error('Scanner error:', err);
@@ -1592,26 +1523,20 @@
     }
 
     function onScanSuccess(decodedText, decodedResult) {
-      // สั่นเตือนเมื่อสแกนสำเร็จ
       if (navigator.vibrate) navigator.vibrate(100);
-      
-      // ✅ แสดง Toast บอกประเภทที่สแกนได้
-      const formatName = decodedResult?.result?.format?.formatName || 'Code';
-      console.log(`✅ Scanned: ${decodedText} (${formatName})`);
-      
-      applyScanResult(decodedText, formatName);
+      applyScanResult(decodedText);
       closeScanner();
     }
 
     function submitManual() {
       const value = $('manualInput').value.trim();
       if (value) {
-        applyScanResult(value, 'Manual');
+        applyScanResult(value);
         closeScanner();
       }
     }
 
-    function applyScanResult(value, formatName = '') {
+    function applyScanResult(value) {
       if (state.scanTarget === 'truck') {
         $('inputTruck').value = value;
         $('badgeTruck').classList.remove('hidden');
@@ -1622,10 +1547,7 @@
         $('badgeTrf').querySelector('span').textContent = value;
       }
       
-      // แสดง Toast พร้อมบอกประเภท
-      const typeText = formatName.includes('QR') ? 'QR Code' : 
-                       formatName === 'Manual' ? 'พิมพ์เอง' : 'Barcode';
-      showToast(`สแกนสำเร็จ (${typeText})`, 'success');
+      showToast('สแกนสำเร็จ', 'success');
     }
 
     // =====================================================
