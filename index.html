@@ -565,6 +565,26 @@
     #qr-reader { width: 100%; height: 100%; }
     #qr-reader video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
     
+    /* ✅ ซ่อนกรอบขาวจาก library */
+    #qr-reader__scan_region { 
+      background: transparent !important;
+    }
+    #qr-reader__scan_region > img,
+    #qr-reader__scan_region > div {
+      display: none !important;
+    }
+    #qr-shaded-region {
+      display: none !important;
+    }
+    /* ซ่อน border ทั้งหมดจาก library */
+    #qr-reader div[style*="border"] {
+      border: none !important;
+    }
+    #qr-reader div[style*="inset"] {
+      box-shadow: none !important;
+      border: none !important;
+    }
+    
     /* ✅ Scanner Overlay */
     .scanner-overlay { 
       position: absolute; 
@@ -1612,16 +1632,12 @@
       state.scanTarget = null;
     }
 
-    // ✅ สลับโหมดสแกน
+    // ✅ สลับโหมดสแกน - แค่เปลี่ยน UI (ไม่ต้อง restart)
     function switchScanMode(mode) {
       if (state.scanMode === mode) return;
       
       state.scanMode = mode;
       updateScanModeUI();
-      
-      // Restart scanner ด้วย config ใหม่
-      stopScanner();
-      setTimeout(() => startScanner(), 300);
     }
 
     // ✅ อัปเดต UI ตามโหมด
@@ -1643,25 +1659,17 @@
         : 'วาง Barcode แนวนอนในกรอบ';
     }
 
-    // ✅ Config ตามโหมด
+    // ✅ Config ตามโหมด - ไม่ใช้ qrbox (ใช้กรอบของเราเอง)
     function getScannerConfig() {
-      if (state.scanMode === 'qr') {
-        return {
-          qrbox: { width: 220, height: 220 },
-          aspectRatio: 1.0
-        };
-      } else {
-        return {
-          qrbox: { width: 280, height: 100 },
-          aspectRatio: 2.0
-        };
-      }
+      return {
+        fps: 15,
+        disableFlip: false,
+        // ไม่ใส่ qrbox เพื่อให้สแกนเต็มจอ
+      };
     }
 
     async function startScanner() {
       try {
-        const config = getScannerConfig();
-        
         state.qrScanner = new Html5Qrcode('qr-reader', {
           formatsToSupport: getSupportedFormats(),
           verbose: false
@@ -1669,12 +1677,7 @@
 
         await state.qrScanner.start(
           { facingMode: 'environment' },
-          { 
-            fps: 15,
-            qrbox: config.qrbox,
-            aspectRatio: config.aspectRatio,
-            disableFlip: false,
-          },
+          getScannerConfig(),
           onScanSuccess,
           () => {}
         );
