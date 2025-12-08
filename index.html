@@ -478,81 +478,116 @@
       backdrop-filter: blur(4px);
     }
 
-    /* ✅ Scanner Modal - รองรับทั้ง QR และ Barcode */
+    /* ✅ Scanner Modal - Premium Design */
     .scanner-container { 
       width: 100%; 
-      max-width: 400px; 
-      background: var(--gray-900); 
+      max-width: 420px; 
+      background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
       border-radius: var(--radius-xl); 
-      overflow: hidden; 
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
     }
     .scanner-header { 
       display: flex; 
       align-items: center; 
       justify-content: space-between; 
       padding: var(--space-md) var(--space-lg); 
-      background: var(--primary); 
-      color: #fff; 
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(99,102,241,0.3);
     }
-    .scanner-title { font-size: 1rem; font-weight: 600; }
+    .scanner-title { font-size: 1.1rem; font-weight: 600; letter-spacing: 0.3px; }
     .btn-close { 
-      width: 36px; 
-      height: 36px; 
+      width: 38px; 
+      height: 38px; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      background: rgba(255,255,255,0.2); 
+      background: rgba(255,255,255,0.15); 
       border: none; 
-      border-radius: var(--radius-sm); 
+      border-radius: var(--radius-md); 
       color: #fff; 
       cursor: pointer; 
-      font-size: 1.2rem; 
+      font-size: 1.3rem;
+      font-weight: 300;
+      transition: all 0.2s ease;
+    }
+    .btn-close:hover {
+      background: rgba(255,255,255,0.25);
+      transform: rotate(90deg);
     }
 
-    /* ✅ Mode Toggle - สลับ QR / Barcode */
+    /* ✅ Mode Toggle - Premium Design */
     .scan-mode-toggle {
       display: flex;
-      gap: var(--space-xs);
+      gap: var(--space-sm);
       padding: var(--space-sm) var(--space-md);
-      background: rgba(0,0,0,0.3);
+      background: linear-gradient(180deg, rgba(30,41,59,0.95) 0%, rgba(15,23,42,0.95) 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     .mode-btn {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: var(--space-xs);
-      padding: var(--space-sm) var(--space-md);
-      background: rgba(255,255,255,0.1);
-      border: 2px solid transparent;
-      border-radius: var(--radius-sm);
-      color: rgba(255,255,255,0.6);
-      font-size: 0.85rem;
-      font-weight: 500;
+      gap: var(--space-sm);
+      padding: var(--space-md) var(--space-lg);
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all var(--transition-fast);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .mode-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary), var(--success));
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
     .mode-btn:hover {
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
       color: rgba(255,255,255,0.8);
+      transform: translateY(-1px);
     }
     .mode-btn.active {
-      background: var(--primary);
-      border-color: var(--primary-light);
+      background: transparent;
+      border-color: transparent;
       color: #fff;
+      box-shadow: 0 4px 15px rgba(99,102,241,0.4);
+    }
+    .mode-btn.active::before {
+      opacity: 1;
+    }
+    .mode-btn span,
+    .mode-btn svg {
+      position: relative;
+      z-index: 1;
     }
     .mode-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
     }
+    .mode-btn[data-mode="barcode"] svg {
+      fill: currentColor;
+      stroke: none;
+    }
 
     .scanner-viewport { 
       position: relative; 
-      height: 300px; 
+      height: 340px; 
       background: #000; 
+      overflow: hidden;
     }
     #qr-reader { width: 100%; height: 100%; }
     #qr-reader video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
@@ -565,60 +600,174 @@
       flex-direction: column;
       align-items: center; 
       justify-content: center; 
-      pointer-events: none; 
+      pointer-events: none;
+      background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.5) 70%);
     }
     
-    /* ✅ กรอบสแกน QR Code - สี่เหลี่ยมจัตุรัส */
+    /* ✅ กรอบสแกน - Premium Design */
     .scanner-frame {
       position: relative;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: transparent;
     }
     .scanner-frame.qr-mode {
-      width: 220px;
-      height: 220px;
+      width: 240px;
+      height: 240px;
     }
     .scanner-frame.barcode-mode {
-      width: 280px;
-      height: 100px;
+      width: 300px;
+      height: 120px;
     }
     
+    /* กรอบนอก - Glow Effect */
+    .scanner-frame::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(16,185,129,0.3));
+      filter: blur(8px);
+      animation: frameGlow 2s ease-in-out infinite alternate;
+    }
+    @keyframes frameGlow {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    
+    /* กรอบใน - Border Gradient */
+    .scanner-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.02);
+    }
+    
+    /* Corner Brackets - Premium Style */
     .frame-corner { 
       position: absolute; 
-      width: 24px; 
-      height: 24px; 
-      border: 4px solid #fff; 
-      transition: all 0.3s ease;
+      width: 40px; 
+      height: 40px; 
+      transition: all 0.4s ease;
+      z-index: 2;
     }
-    .frame-corner.top-left { top: 0; left: 0; border-right: none; border-bottom: none; border-radius: 8px 0 0 0; }
-    .frame-corner.top-right { top: 0; right: 0; border-left: none; border-bottom: none; border-radius: 0 8px 0 0; }
-    .frame-corner.bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; border-radius: 0 0 0 8px; }
-    .frame-corner.bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; border-radius: 0 0 8px 0; }
+    .frame-corner::before,
+    .frame-corner::after {
+      content: '';
+      position: absolute;
+      background: linear-gradient(135deg, #6366F1, #10B981);
+      border-radius: 4px;
+      box-shadow: 0 0 12px rgba(99,102,241,0.6), 0 0 24px rgba(16,185,129,0.4);
+    }
     
-    /* เส้นสแกน */
+    /* Top-Left Corner */
+    .frame-corner.top-left { top: 0; left: 0; }
+    .frame-corner.top-left::before { top: 0; left: 0; width: 40px; height: 5px; }
+    .frame-corner.top-left::after { top: 0; left: 0; width: 5px; height: 40px; }
+    
+    /* Top-Right Corner */
+    .frame-corner.top-right { top: 0; right: 0; }
+    .frame-corner.top-right::before { top: 0; right: 0; width: 40px; height: 5px; }
+    .frame-corner.top-right::after { top: 0; right: 0; width: 5px; height: 40px; }
+    
+    /* Bottom-Left Corner */
+    .frame-corner.bottom-left { bottom: 0; left: 0; }
+    .frame-corner.bottom-left::before { bottom: 0; left: 0; width: 40px; height: 5px; }
+    .frame-corner.bottom-left::after { bottom: 0; left: 0; width: 5px; height: 40px; }
+    
+    /* Bottom-Right Corner */
+    .frame-corner.bottom-right { bottom: 0; right: 0; }
+    .frame-corner.bottom-right::before { bottom: 0; right: 0; width: 40px; height: 5px; }
+    .frame-corner.bottom-right::after { bottom: 0; right: 0; width: 5px; height: 40px; }
+    
+    /* Corner Pulse Animation */
+    .scanner-frame:not(.scanned) .frame-corner::before,
+    .scanner-frame:not(.scanned) .frame-corner::after {
+      animation: cornerPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes cornerPulse {
+      0%, 100% { box-shadow: 0 0 12px rgba(99,102,241,0.6), 0 0 24px rgba(16,185,129,0.4); }
+      50% { box-shadow: 0 0 20px rgba(99,102,241,0.9), 0 0 40px rgba(16,185,129,0.7); }
+    }
+    
+    /* เส้นสแกน - Premium Gradient */
     .scan-line { 
       position: absolute; 
-      left: 10px; 
-      right: 10px; 
-      height: 3px; 
-      background: linear-gradient(90deg, transparent, #10B981, #10B981, transparent); 
-      border-radius: 2px;
-      box-shadow: 0 0 10px #10B981;
-      animation: scan 2s ease-in-out infinite; 
+      left: 8px; 
+      right: 8px; 
+      height: 4px; 
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(99,102,241,0.8) 20%, 
+        #10B981 50%, 
+        rgba(99,102,241,0.8) 80%, 
+        transparent 100%
+      ); 
+      border-radius: 4px;
+      box-shadow: 
+        0 0 15px rgba(16,185,129,0.8),
+        0 0 30px rgba(99,102,241,0.5),
+        0 -2px 8px rgba(16,185,129,0.4),
+        0 2px 8px rgba(16,185,129,0.4);
+      animation: scanPremium 2.2s ease-in-out infinite;
+      z-index: 3;
     }
-    @keyframes scan { 0%, 100% { top: 10px; opacity: 1; } 50% { top: calc(100% - 10px); opacity: 0.8; } }
+    @keyframes scanPremium { 
+      0%, 100% { top: 8px; opacity: 1; transform: scaleX(0.95); } 
+      50% { top: calc(100% - 12px); opacity: 0.9; transform: scaleX(1); } 
+    }
     
-    /* ✅ Mode Hint */
+    /* Barcode Mode - Horizontal Line Animation */
+    .scanner-frame.barcode-mode .scan-line {
+      animation: scanBarcode 1.8s ease-in-out infinite;
+    }
+    @keyframes scanBarcode { 
+      0%, 100% { top: 8px; opacity: 1; } 
+      50% { top: calc(100% - 12px); opacity: 0.9; } 
+    }
+    
+    /* ✅ Mode Hint - Floating Badge */
     .scan-mode-hint {
-      margin-top: var(--space-md);
-      padding: var(--space-xs) var(--space-md);
-      background: rgba(0,0,0,0.6);
+      margin-top: var(--space-lg);
+      padding: var(--space-sm) var(--space-lg);
+      background: linear-gradient(135deg, rgba(99,102,241,0.9), rgba(79,70,229,0.9));
       border-radius: var(--radius-full);
-      color: rgba(255,255,255,0.8);
-      font-size: 0.75rem;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 500;
       text-align: center;
+      box-shadow: 0 4px 15px rgba(99,102,241,0.4);
+      animation: floatHint 3s ease-in-out infinite;
+    }
+    @keyframes floatHint {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    
+    /* Icon ใน Hint */
+    .scan-mode-hint::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      vertical-align: middle;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .scanner-frame.qr-mode + .scan-mode-hint::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3Crect x='14' y='14' width='4' height='4'/%3E%3C/svg%3E");
+    }
+    .scanner-frame.barcode-mode + .scan-mode-hint::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M2 4h2v16H2zM6 4h1v16H6zM9 4h2v16H9zM13 4h1v16h-1zM16 4h2v16h-2zM20 4h2v16h-2z'/%3E%3C/svg%3E");
     }
 
-    .scanner-footer { padding: var(--space-md); }
+    .scanner-footer { 
+      padding: var(--space-md) var(--space-lg); 
+      background: linear-gradient(180deg, rgba(15,23,42,0.95) 0%, rgba(30,41,59,0.95) 100%);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
     .scanner-hint { 
       text-align: center; 
       color: rgba(255,255,255,0.7); 
@@ -630,22 +779,37 @@
       flex: 1; 
       padding: 14px 16px; 
       font-size: 1rem; 
-      background: rgba(255,255,255,0.1); 
-      border: 2px solid rgba(255,255,255,0.2); 
+      background: rgba(255,255,255,0.08); 
+      border: 2px solid rgba(255,255,255,0.15); 
       border-radius: var(--radius-md); 
-      color: #fff; 
+      color: #fff;
+      transition: all 0.3s ease;
     }
-    .manual-input:focus { outline: none; border-color: var(--primary-light); }
+    .manual-input:focus { 
+      outline: none; 
+      border-color: var(--primary); 
+      background: rgba(99,102,241,0.1);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+    }
     .manual-input::placeholder { color: rgba(255,255,255,0.4); }
     .btn-manual { 
-      padding: 14px 20px; 
+      padding: 14px 24px; 
       font-size: 1rem; 
       font-weight: 600; 
-      background: var(--primary); 
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: #fff; 
       border: none; 
       border-radius: var(--radius-md); 
-      cursor: pointer; 
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+    }
+    .btn-manual:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(99,102,241,0.4);
+    }
+    .btn-manual:active {
+      transform: translateY(0);
     }
 
     /* Success */
@@ -1082,32 +1246,32 @@
         <div style="width:36px"></div>
       </header>
       
-      <!-- ✅ ปุ่มสลับโหมด -->
+      <!-- ✅ ปุ่มสลับโหมด - Premium Design -->
       <div class="scan-mode-toggle">
         <button id="btnModeQR" class="mode-btn active" data-mode="qr">
           <svg viewBox="0 0 24 24">
-            <rect x="3" y="3" width="7" height="7"/>
-            <rect x="14" y="3" width="7" height="7"/>
-            <rect x="3" y="14" width="7" height="7"/>
-            <rect x="14" y="14" width="4" height="4"/>
-            <rect x="19" y="14" width="2" height="2"/>
-            <rect x="14" y="19" width="2" height="2"/>
-            <rect x="19" y="19" width="2" height="2"/>
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="4" height="4" rx="0.5"/>
+            <rect x="19" y="14" width="2" height="2" rx="0.5"/>
+            <rect x="14" y="19" width="2" height="2" rx="0.5"/>
+            <rect x="19" y="19" width="2" height="2" rx="0.5"/>
           </svg>
-          QR Code
+          <span>QR Code</span>
         </button>
         <button id="btnModeBarcode" class="mode-btn" data-mode="barcode">
           <svg viewBox="0 0 24 24">
             <path d="M2 4h2v16H2zM6 4h1v16H6zM9 4h2v16H9zM13 4h1v16h-1zM16 4h2v16h-2zM20 4h2v16h-2z"/>
           </svg>
-          Barcode
+          <span>Barcode</span>
         </button>
       </div>
       
       <div class="scanner-viewport">
         <div id="qr-reader"></div>
         <div class="scanner-overlay">
-          <!-- กรอบสแกน - เปลี่ยนตามโหมด -->
+          <!-- กรอบสแกน - Premium Design -->
           <div id="scannerFrame" class="scanner-frame qr-mode">
             <div class="frame-corner top-left"></div>
             <div class="frame-corner top-right"></div>
