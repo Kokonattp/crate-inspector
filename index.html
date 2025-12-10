@@ -478,7 +478,7 @@
       backdrop-filter: blur(4px);
     }
 
-    /* ✅ Scanner Modal - แบบเรียบง่าย */
+    /* Scanner Modal - Barcode Only */
     .scanner-container { 
       width: 100%; 
       max-width: 400px; 
@@ -512,49 +512,22 @@
       background: rgba(255,255,255,0.3);
     }
 
-    /* ✅ Mode Toggle - แบบเรียบง่าย */
-    .scan-mode-toggle {
-      display: flex;
-      gap: var(--space-sm);
-      padding: var(--space-sm) var(--space-md);
-      background: #1E293B;
-    }
-    .mode-btn {
-      flex: 1;
+    /* Barcode Mode Indicator */
+    .scan-mode-indicator {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: var(--space-sm);
       padding: var(--space-md);
-      background: transparent;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: var(--radius-md);
-      color: rgba(255,255,255,0.5);
+      background: #1E293B;
+      color: #10B981;
       font-size: 0.9rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
     }
-    .mode-btn:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.3);
-      color: rgba(255,255,255,0.7);
-    }
-    .mode-btn.active {
-      background: #10B981;
-      border-color: #10B981;
-      color: #fff;
-    }
-    .mode-btn svg {
+    .scan-mode-indicator svg {
       width: 20px;
       height: 20px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-    }
-    .mode-btn[data-mode="barcode"] svg {
       fill: currentColor;
-      stroke: none;
     }
 
     .scanner-viewport { 
@@ -565,7 +538,7 @@
     #qr-reader { width: 100%; height: 100%; }
     #qr-reader video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
     
-    /* ✅ ซ่อนกรอบขาวจาก library */
+    /* ซ่อนกรอบขาวจาก library */
     #qr-reader__scan_region { 
       background: transparent !important;
     }
@@ -576,7 +549,6 @@
     #qr-shaded-region {
       display: none !important;
     }
-    /* ซ่อน border ทั้งหมดจาก library */
     #qr-reader div[style*="border"] {
       border: none !important;
     }
@@ -585,7 +557,7 @@
       border: none !important;
     }
     
-    /* ✅ Scanner Overlay */
+    /* Scanner Overlay */
     .scanner-overlay { 
       position: absolute; 
       inset: 0; 
@@ -596,21 +568,15 @@
       pointer-events: none;
     }
     
-    /* ✅ กรอบสแกน - แบบเรียบง่าย */
+    /* กรอบสแกน Barcode - แนวนอน */
     .scanner-frame {
       position: relative;
-      transition: all 0.3s ease;
-    }
-    .scanner-frame.qr-mode {
-      width: 240px;
-      height: 240px;
-    }
-    .scanner-frame.barcode-mode {
       width: 300px;
       height: 120px;
+      transition: all 0.3s ease;
     }
     
-    /* Corner Brackets - เรียบง่าย */
+    /* Corner Brackets */
     .frame-corner { 
       position: absolute; 
       width: 30px; 
@@ -623,22 +589,18 @@
       background: #10B981;
     }
     
-    /* Top-Left Corner */
     .frame-corner.top-left { top: 0; left: 0; }
     .frame-corner.top-left::before { top: 0; left: 0; width: 30px; height: 4px; }
     .frame-corner.top-left::after { top: 0; left: 0; width: 4px; height: 30px; }
     
-    /* Top-Right Corner */
     .frame-corner.top-right { top: 0; right: 0; }
     .frame-corner.top-right::before { top: 0; right: 0; width: 30px; height: 4px; }
     .frame-corner.top-right::after { top: 0; right: 0; width: 4px; height: 30px; }
     
-    /* Bottom-Left Corner */
     .frame-corner.bottom-left { bottom: 0; left: 0; }
     .frame-corner.bottom-left::before { bottom: 0; left: 0; width: 30px; height: 4px; }
     .frame-corner.bottom-left::after { bottom: 0; left: 0; width: 4px; height: 30px; }
     
-    /* Bottom-Right Corner */
     .frame-corner.bottom-right { bottom: 0; right: 0; }
     .frame-corner.bottom-right::before { bottom: 0; right: 0; width: 30px; height: 4px; }
     .frame-corner.bottom-right::after { bottom: 0; right: 0; width: 4px; height: 30px; }
@@ -659,7 +621,7 @@
       50% { top: calc(100% - 11px); } 
     }
     
-    /* ✅ Mode Hint */
+    /* Mode Hint */
     .scan-mode-hint {
       margin-top: var(--space-md);
       padding: var(--space-sm) var(--space-lg);
@@ -840,7 +802,7 @@
     </main>
 
     <footer class="home-footer">
-      <p>เวอร์ชัน 3.4.0 - สลับโหมด QR / Barcode</p>
+      <p>เวอร์ชัน 3.5.0 - Barcode Scanner</p>
     </footer>
   </div>
 
@@ -893,11 +855,10 @@
           <span class="badge-optional">ไม่บังคับ</span>
         </div>
         <div class="input-row">
-          <input type="text" id="inputTruck" class="input-text input-mono" placeholder="สแกน QR/Barcode หรือพิมพ์...">
+          <input type="text" id="inputTruck" class="input-text input-mono" placeholder="สแกน Barcode หรือพิมพ์...">
           <button class="btn-scan" data-target="truck">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <path d="M7 7h.01M7 12h.01M7 17h.01M12 7h.01M12 12h.01M12 17h.01M17 7h.01M17 12h.01M17 17h.01"/>
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+              <path d="M2 4h2v16H2zM6 4h1v16H6zM9 4h2v16H9zM13 4h1v16h-1zM16 4h2v16h-2zM20 4h2v16h-2z"/>
             </svg>
           </button>
         </div>
@@ -919,11 +880,10 @@
           <span class="badge-required">จำเป็น</span>
         </div>
         <div class="input-row">
-          <input type="text" id="inputTrf" class="input-text input-mono" placeholder="สแกน QR/Barcode หรือพิมพ์...">
+          <input type="text" id="inputTrf" class="input-text input-mono" placeholder="สแกน Barcode หรือพิมพ์...">
           <button class="btn-scan" data-target="trf">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <path d="M7 7h.01M7 12h.01M7 17h.01M12 7h.01M12 12h.01M12 17h.01M17 7h.01M17 12h.01M17 17h.01"/>
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+              <path d="M2 4h2v16H2zM6 4h1v16H6zM9 4h2v16H9zM13 4h1v16h-1zM16 4h2v16h-2zM20 4h2v16h-2z"/>
             </svg>
           </button>
         </div>
@@ -1128,49 +1088,35 @@
     </div>
   </div>
 
-  <!-- ✅ SCANNER MODAL - สลับโหมด QR / Barcode -->
+  <!-- SCANNER MODAL - Barcode Only -->
   <div id="modalScanner" class="modal hidden">
     <div class="scanner-container">
       <header class="scanner-header">
         <button id="btnCloseScanner" class="btn-close">✕</button>
-        <h2 id="scannerTitle" class="scanner-title">สแกน QR Code / Barcode</h2>
+        <h2 id="scannerTitle" class="scanner-title">สแกน Barcode</h2>
         <div style="width:36px"></div>
       </header>
       
-      <!-- ✅ ปุ่มสลับโหมด - Premium Design -->
-      <div class="scan-mode-toggle">
-        <button id="btnModeQR" class="mode-btn active" data-mode="qr">
-          <svg viewBox="0 0 24 24">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="4" height="4" rx="0.5"/>
-            <rect x="19" y="14" width="2" height="2" rx="0.5"/>
-            <rect x="14" y="19" width="2" height="2" rx="0.5"/>
-            <rect x="19" y="19" width="2" height="2" rx="0.5"/>
-          </svg>
-          <span>QR Code</span>
-        </button>
-        <button id="btnModeBarcode" class="mode-btn" data-mode="barcode">
-          <svg viewBox="0 0 24 24">
-            <path d="M2 4h2v16H2zM6 4h1v16H6zM9 4h2v16H9zM13 4h1v16h-1zM16 4h2v16h-2zM20 4h2v16h-2z"/>
-          </svg>
-          <span>Barcode</span>
-        </button>
+      <!-- Barcode Mode Indicator -->
+      <div class="scan-mode-indicator">
+        <svg viewBox="0 0 24 24">
+          <path d="M2 4h2v16H2zM6 4h1v16H6zM9 4h2v16H9zM13 4h1v16h-1zM16 4h2v16h-2zM20 4h2v16h-2z"/>
+        </svg>
+        <span>Barcode Scanner</span>
       </div>
       
       <div class="scanner-viewport">
         <div id="qr-reader"></div>
         <div class="scanner-overlay">
-          <!-- กรอบสแกน - Premium Design -->
-          <div id="scannerFrame" class="scanner-frame qr-mode">
+          <!-- กรอบสแกน Barcode - แนวนอน -->
+          <div class="scanner-frame">
             <div class="frame-corner top-left"></div>
             <div class="frame-corner top-right"></div>
             <div class="frame-corner bottom-left"></div>
             <div class="frame-corner bottom-right"></div>
             <div class="scan-line"></div>
           </div>
-          <div id="scanModeHint" class="scan-mode-hint">วาง QR Code ในกรอบ</div>
+          <div class="scan-mode-hint">วาง Barcode แนวนอนในกรอบ</div>
         </div>
       </div>
       <div class="scanner-footer">
@@ -1285,10 +1231,9 @@
     // =====================================================
     const API_URL = 'https://script.google.com/macros/s/AKfycbyAmky9PAMDG2OpiU0i9uWSnkhq7fsDwftjtPM5HdV_biYv6_s_vxo7evsh-M3_1HKheQ/exec';
 
-    // ✅ Barcode formats ที่รองรับ
+    // Barcode formats ที่รองรับ (ไม่รวม QR Code)
     function getSupportedFormats() {
       return [
-        Html5QrcodeSupportedFormats.QR_CODE,
         Html5QrcodeSupportedFormats.CODE_128,
         Html5QrcodeSupportedFormats.CODE_39,
         Html5QrcodeSupportedFormats.CODE_93,
@@ -1354,7 +1299,6 @@
 
     const state = {
       scanTarget: null,
-      scanMode: 'qr', // ✅ 'qr' หรือ 'barcode'
       selectedStatus: null,
       selectedExcess: {},
       selectedShortage: {},
@@ -1398,10 +1342,6 @@
       $('btnCloseScanner').onclick = closeScanner;
       $('btnManual').onclick = submitManual;
       $('manualInput').addEventListener('keypress', e => { if (e.key === 'Enter') submitManual(); });
-
-      // ✅ ปุ่มสลับโหมด QR / Barcode
-      $('btnModeQR').onclick = () => switchScanMode('qr');
-      $('btnModeBarcode').onclick = () => switchScanMode('barcode');
 
       $$('.status-btn').forEach(btn => { btn.onclick = () => selectStatus(btn.dataset.status); });
 
@@ -1613,16 +1553,13 @@
     }
 
     // =====================================================
-    // ✅ QR & BARCODE SCANNER - สลับโหมดได้
+    // BARCODE SCANNER
     // =====================================================
     function openScanner(target) {
       state.scanTarget = target;
       $('scannerTitle').textContent = target === 'truck' ? 'สแกนรหัสรถ' : 'สแกนเอกสาร TRF';
       $('modalScanner').classList.remove('hidden');
       $('manualInput').value = '';
-      
-      // ตั้งค่าโหมดเริ่มต้น
-      updateScanModeUI();
       startScanner();
     }
 
@@ -1630,42 +1567,6 @@
       stopScanner();
       $('modalScanner').classList.add('hidden');
       state.scanTarget = null;
-    }
-
-    // ✅ สลับโหมดสแกน - แค่เปลี่ยน UI (ไม่ต้อง restart)
-    function switchScanMode(mode) {
-      if (state.scanMode === mode) return;
-      
-      state.scanMode = mode;
-      updateScanModeUI();
-    }
-
-    // ✅ อัปเดต UI ตามโหมด
-    function updateScanModeUI() {
-      const isQR = state.scanMode === 'qr';
-      
-      // อัปเดตปุ่ม
-      $('btnModeQR').classList.toggle('active', isQR);
-      $('btnModeBarcode').classList.toggle('active', !isQR);
-      
-      // อัปเดตกรอบสแกน
-      const frame = $('scannerFrame');
-      frame.classList.toggle('qr-mode', isQR);
-      frame.classList.toggle('barcode-mode', !isQR);
-      
-      // อัปเดต hint
-      $('scanModeHint').textContent = isQR 
-        ? 'วาง QR Code ในกรอบ' 
-        : 'วาง Barcode แนวนอนในกรอบ';
-    }
-
-    // ✅ Config ตามโหมด - ไม่ใช้ qrbox (ใช้กรอบของเราเอง)
-    function getScannerConfig() {
-      return {
-        fps: 15,
-        disableFlip: false,
-        // ไม่ใส่ qrbox เพื่อให้สแกนเต็มจอ
-      };
     }
 
     async function startScanner() {
@@ -1677,12 +1578,12 @@
 
         await state.qrScanner.start(
           { facingMode: 'environment' },
-          getScannerConfig(),
+          { fps: 15, disableFlip: false },
           onScanSuccess,
           () => {}
         );
         
-        console.log('✅ Scanner ready - Mode:', state.scanMode);
+        console.log('✅ Barcode Scanner ready');
         
       } catch (err) {
         console.error('Scanner error:', err);
@@ -1700,7 +1601,6 @@
     function onScanSuccess(decodedText, decodedResult) {
       if (navigator.vibrate) navigator.vibrate(100);
       
-      // แสดงประเภทที่สแกนได้
       const format = decodedResult?.result?.format?.formatName || 'Unknown';
       console.log('✅ Scanned:', decodedText, '| Format:', format);
       
