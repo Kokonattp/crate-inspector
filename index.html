@@ -873,7 +873,7 @@
     </main>
 
     <footer class="home-footer">
-      <p>เวอร์ชัน 3.6.0 - Enhanced Barcode Scanner</p>
+      <p>เวอร์ชัน 3.6.1 - Truck ID Required</p>
     </footer>
   </div>
 
@@ -923,7 +923,7 @@
             </svg>
           </div>
           <span class="section-title">รหัสรถ (Truck ID)</span>
-          <span class="badge-optional">ไม่บังคับ</span>
+          <span class="badge-required">จำเป็น</span>
         </div>
         <div class="input-row">
           <input type="text" id="inputTruck" class="input-text input-mono" placeholder="สแกน Barcode หรือพิมพ์...">
@@ -1869,6 +1869,7 @@
     // =====================================================
     function validateForm() {
       if (!$('inputUser').value.trim()) return 'กรุณาระบุชื่อพนักงานที่สุ่มตรวจ';
+      if (!$('inputTruck').value.trim()) return 'กรุณาสแกนหรือระบุรหัสรถ';
       if (!$('inputTrf').value.trim()) return 'กรุณาสแกนหรือระบุเลขเอกสาร TRF';
       if (!$('inputInitial').value) return 'กรุณาระบุจำนวนลังตั้งต้น';
       if (!$('inputReceived').value) return 'กรุณาระบุจำนวนลังที่รับ';
