@@ -216,42 +216,114 @@
     .badge-required { font-size: 0.65rem; font-weight: 600; color: var(--danger); background: var(--danger-light); padding: 2px 8px; border-radius: var(--radius-full); }
     .badge-optional { font-size: 0.65rem; font-weight: 600; color: var(--gray-500); background: var(--gray-200); padding: 2px 8px; border-radius: var(--radius-full); }
 
-    /* Photo */
+    /* Photo Buttons - แยก 2 ปุ่ม */
     .photo-upload { position: relative; }
-    .photo-input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-    .photo-label {
+    .photo-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+    
+    .photo-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+    }
+
+    .photo-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: var(--space-xl);
+      gap: var(--space-sm);
+      padding: var(--space-lg);
       background: var(--gray-50);
       border: 2px dashed var(--gray-300);
       border-radius: var(--radius-md);
       cursor: pointer;
       transition: all var(--transition-fast);
     }
-    .photo-label:hover { border-color: var(--primary); background: var(--primary-bg); }
-    .photo-label svg { width: 48px; height: 48px; stroke: var(--gray-400); margin-bottom: var(--space-sm); }
-    .photo-text { font-size: 0.9rem; color: var(--gray-500); }
+
+    .photo-btn:hover {
+      border-color: var(--primary);
+      background: var(--primary-bg);
+    }
+
+    .photo-btn:active {
+      transform: scale(0.98);
+    }
+
+    .photo-btn svg {
+      width: 36px;
+      height: 36px;
+      stroke: var(--gray-500);
+    }
+
+    .photo-btn span {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .photo-btn:hover svg {
+      stroke: var(--primary);
+    }
+
+    .photo-btn:hover span {
+      color: var(--primary);
+    }
+
+    .photo-btn-camera {
+      border-color: var(--primary-light);
+      background: var(--primary-bg);
+    }
+
+    .photo-btn-camera svg {
+      stroke: var(--primary);
+    }
+
+    .photo-btn-camera span {
+      color: var(--primary);
+    }
+
+    .photo-btn-gallery {
+      border-color: var(--success);
+      border-style: dashed;
+      background: var(--success-light);
+    }
+
+    .photo-btn-gallery svg {
+      stroke: var(--success);
+    }
+
+    .photo-btn-gallery span {
+      color: #059669;
+    }
+
+    .photo-btn-gallery:hover {
+      border-color: #059669;
+      background: #A7F3D0;
+    }
+
     .photo-preview { position: relative; margin-top: var(--space-md); }
     .photo-preview img { width: 100%; max-height: 250px; object-fit: cover; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
     .btn-remove-photo {
       position: absolute;
       top: var(--space-sm);
       right: var(--space-sm);
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       background: var(--danger);
       color: #fff;
       border: none;
       border-radius: var(--radius-full);
-      font-size: 1rem;
+      font-size: 1.2rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: var(--shadow-md);
+      transition: transform var(--transition-fast);
+    }
+    .btn-remove-photo:hover {
+      transform: scale(1.1);
     }
 
     /* Input */
@@ -828,6 +900,7 @@
 
     @media (max-width: 360px) {
       .crate-grid { grid-template-columns: repeat(2, 1fr); }
+      .photo-buttons { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -873,7 +946,7 @@
     </main>
 
     <footer class="home-footer">
-      <p>เวอร์ชัน 3.6.1 - Truck ID Required</p>
+      <p>เวอร์ชัน 3.7.0 - Photo Fix</p>
     </footer>
   </div>
 
@@ -1093,7 +1166,7 @@
         <input type="text" id="inputWt" class="input-text input-mono" placeholder="ระบุเลข WT...">
       </section>
 
-      <!-- รูปภาพ -->
+      <!-- รูปภาพ - แยก 2 ปุ่ม -->
       <section class="form-section">
         <div class="section-header">
           <div class="section-icon">
@@ -1107,14 +1180,29 @@
           <span class="badge-optional">ไม่บังคับ</span>
         </div>
         <div class="photo-upload">
-          <input type="file" id="inputPhoto" accept="image/*" capture="environment" class="photo-input">
-          <label for="inputPhoto" class="photo-label">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-              <circle cx="12" cy="13" r="4"/>
-            </svg>
-            <div class="photo-text">ถ่ายรูป หรือ เลือกจากอัลบั้ม</div>
-          </label>
+          <!-- Input สำหรับถ่ายรูป (มือถือ) -->
+          <input type="file" id="inputPhotoCamera" accept="image/*" capture="environment" class="photo-input">
+          <!-- Input สำหรับเลือกจากอัลบั้ม -->
+          <input type="file" id="inputPhotoGallery" accept="image/*" class="photo-input">
+          
+          <div id="photoButtons" class="photo-buttons">
+            <label for="inputPhotoCamera" class="photo-btn photo-btn-camera">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+              <span>📷 ถ่ายรูป</span>
+            </label>
+            <label for="inputPhotoGallery" class="photo-btn photo-btn-gallery">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>🖼️ เลือกจากอัลบั้ม</span>
+            </label>
+          </div>
+          
           <div id="photoPreview" class="photo-preview hidden">
             <img id="previewImg" src="" alt="Preview">
             <button type="button" id="btnRemovePhoto" class="btn-remove-photo">✕</button>
@@ -1474,7 +1562,9 @@
         };
       });
 
-      $('inputPhoto').addEventListener('change', handlePhotoSelect);
+      // ★ Photo Event Listeners - แยก 2 input
+      $('inputPhotoCamera').addEventListener('change', handlePhotoSelect);
+      $('inputPhotoGallery').addEventListener('change', handlePhotoSelect);
       $('btnRemovePhoto').onclick = removePhoto;
     }
 
@@ -1608,7 +1698,7 @@
     }
 
     // =====================================================
-    // PHOTO
+    // PHOTO - แก้ไขให้รองรับทั้งกล้องและอัลบั้ม
     // =====================================================
     function handlePhotoSelect(e) {
       const file = e.target.files[0];
@@ -1623,7 +1713,7 @@
         state.photoData = base64;
         $('previewImg').src = base64;
         $('photoPreview').classList.remove('hidden');
-        document.querySelector('.photo-label').classList.add('hidden');
+        $('photoButtons').classList.add('hidden');
         showToast('เลือกรูปภาพแล้ว', 'success');
       });
     }
@@ -1661,9 +1751,10 @@
 
     function removePhoto() {
       state.photoData = null;
-      $('inputPhoto').value = '';
+      $('inputPhotoCamera').value = '';
+      $('inputPhotoGallery').value = '';
       $('photoPreview').classList.add('hidden');
-      document.querySelector('.photo-label').classList.remove('hidden');
+      $('photoButtons').classList.remove('hidden');
     }
 
     // =====================================================
