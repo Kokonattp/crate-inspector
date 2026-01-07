@@ -2280,7 +2280,7 @@
             
             renderHistory(merged);
             $('historyList').classList.remove('hidden');
-            showToast(`อัพเดทแล้ว (+${result.records.length} รายการ)`, 'success');
+            showToast('รีเฟรชสำเร็จ', 'success');
             return;
           }
         } catch (err) {
@@ -2295,7 +2295,6 @@
         state.allHistoryRecords = cachedRecords;
         renderHistory(cachedRecords);
         $('historyList').classList.remove('hidden');
-        showToast('โหลดจาก Cache', 'success');
         return;
       }
 
