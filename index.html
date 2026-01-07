@@ -2187,11 +2187,25 @@
       }
     }
     
-    // ✅ โหลดจาก cache
+    // ✅ โหลดจาก cache (พร้อมกรอง duplicate)
     function loadFromCache() {
       try {
         const cached = localStorage.getItem(CACHE_KEY);
-        return cached ? JSON.parse(cached) : null;
+        if (!cached) return null;
+        
+        const records = JSON.parse(cached);
+        
+        // กรอง duplicate
+        const getKey = (r) => `${r.timestamp}_${r.truckId}_${r.trfDoc}`;
+        const seen = new Set();
+        const unique = records.filter(r => {
+          const key = getKey(r);
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        
+        return unique;
       } catch (e) {
         return null;
       }
@@ -2216,15 +2230,32 @@
       return recordDate >= yesterday;
     }
     
-    // ✅ Merge recent records กับ cache เดิม
+    // ✅ Merge recent records กับ cache เดิม (กรอง duplicate)
     function mergeRecords(cachedRecords, recentRecords) {
-      // ลบรายการวันนี้+เมื่อวานออกจาก cache
-      const oldRecords = cachedRecords.filter(r => !isRecentRecord(r.timestamp));
+      // สร้าง unique key จาก timestamp + truckId + trfDoc
+      const getKey = (r) => `${r.timestamp}_${r.truckId}_${r.trfDoc}`;
       
-      // รวม recent (วันนี้+เมื่อวาน) + old
-      const merged = [...recentRecords, ...oldRecords];
+      // ใช้ Map เพื่อกรอง duplicate
+      const recordMap = new Map();
       
-      // เรียงจากใหม่ไปเก่า
+      // เพิ่ม recent records ก่อน (ใหม่สุด)
+      recentRecords.forEach(r => {
+        const key = getKey(r);
+        if (!recordMap.has(key)) {
+          recordMap.set(key, r);
+        }
+      });
+      
+      // เพิ่ม cached records (เฉพาะที่ไม่ซ้ำ)
+      cachedRecords.forEach(r => {
+        const key = getKey(r);
+        if (!recordMap.has(key)) {
+          recordMap.set(key, r);
+        }
+      });
+      
+      // แปลงกลับเป็น array และเรียงจากใหม่ไปเก่า
+      const merged = Array.from(recordMap.values());
       merged.sort((a, b) => {
         const parseDate = (ts) => {
           if (!ts) return 0;
