@@ -1376,12 +1376,10 @@
       </button>
     </header>
     
-    <!-- ✅ Month Filter Buttons - Default เดือนปัจจุบัน -->
-    <div class="month-filter" style="display: flex; gap: 8px; padding: 12px 16px; background: #f8fafc; overflow-x: auto;">
-      <button class="month-btn" data-month="all" style="padding: 8px 16px; border-radius: 20px; border: 2px solid #e2e8f0; background: white; color: #64748b; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; font-family: inherit;">ทั้งหมด</button>
-      <button class="month-btn active" data-month="0" id="monthBtn0" style="padding: 8px 16px; border-radius: 20px; border: 2px solid #6366F1; background: #6366F1; color: white; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; font-family: inherit;">เดือนนี้</button>
-      <button class="month-btn" data-month="1" id="monthBtn1" style="padding: 8px 16px; border-radius: 20px; border: 2px solid #e2e8f0; background: white; color: #64748b; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; font-family: inherit;">เดือนก่อน</button>
-      <button class="month-btn" data-month="2" id="monthBtn2" style="padding: 8px 16px; border-radius: 20px; border: 2px solid #e2e8f0; background: white; color: #64748b; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; font-family: inherit;">2 เดือนก่อน</button>
+    <!-- ✅ แสดงแค่เดือนปัจจุบัน -->
+    <div id="monthHeader" style="padding: 12px 16px; background: #f8fafc; display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 14px; color: #64748b;">แสดงข้อมูล:</span>
+      <span id="currentMonthLabel" style="font-size: 14px; font-weight: 600; color: #6366F1; background: #EEF2FF; padding: 6px 12px; border-radius: 20px;">ม.ค. 2569</span>
     </div>
     
     <div class="history-body">
@@ -1512,21 +1510,13 @@
     // ✅ ชื่อเดือนภาษาไทย
     const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
 
-    // ✅ อัปเดตชื่อปุ่มเดือน
-    function updateMonthButtonLabels() {
+    // ✅ อัพเดทชื่อเดือนปัจจุบันใน header
+    function updateCurrentMonthLabel() {
       const now = new Date();
-      for (let i = 0; i < 3; i++) {
-        let targetMonth = now.getMonth() - i;
-        let targetYear = now.getFullYear();
-        if (targetMonth < 0) {
-          targetMonth += 12;
-          targetYear -= 1;
-        }
-        const thaiYear = targetYear + 543;
-        const btn = $('monthBtn' + i);
-        if (btn) {
-          btn.textContent = `${THAI_MONTHS[targetMonth]} ${thaiYear}`;
-        }
+      const thaiYear = now.getFullYear() + 543;
+      const label = $('currentMonthLabel');
+      if (label) {
+        label.textContent = `${THAI_MONTHS[now.getMonth()]} ${thaiYear}`;
       }
     }
 
@@ -1553,7 +1543,7 @@
     function init() {
       setupEventListeners();
       renderCrateTypes();
-      updateMonthButtonLabels();
+      updateCurrentMonthLabel(); // ✅ อัพเดทชื่อเดือนปัจจุบัน
 
       setTimeout(() => {
         $('loading').classList.add('fade-out');
@@ -1576,33 +1566,6 @@
       $('btnRefreshHistory').onclick = () => loadHistory(true); // ✅ Force refresh
       $('btnClosePhoto').onclick = () => hideModal('modalPhoto');
       $('btnCloseDetail').onclick = () => hideModal('modalDetail');
-
-      // ✅ Month Filter Buttons
-      $$('.month-btn').forEach(btn => {
-        btn.onclick = () => {
-          $$('.month-btn').forEach(b => {
-            b.classList.remove('active');
-            b.style.background = 'white';
-            b.style.color = '#64748b';
-            b.style.borderColor = '#e2e8f0';
-          });
-          btn.classList.add('active');
-          btn.style.background = '#6366F1';
-          btn.style.color = 'white';
-          btn.style.borderColor = '#6366F1';
-          state.selectedMonth = btn.dataset.month;
-          
-          // ✅ แสดง loading ก่อน แล้วค่อย render
-          $('historyList').classList.add('hidden');
-          $('historyLoading').classList.remove('hidden');
-          $('historyEmpty').classList.add('hidden');
-          
-          setTimeout(() => {
-            $('historyLoading').classList.add('hidden');
-            renderHistory(state.allHistoryRecords);
-          }, 50);
-        };
-      });
 
       $$('.btn-scan').forEach(btn => { btn.onclick = () => openScanner(btn.dataset.target); });
       $('btnCloseScanner').onclick = closeScanner;
@@ -2283,21 +2246,8 @@
       $('historyEmpty').classList.add('hidden');
       $('historyList').classList.add('hidden');
 
-      // ✅ Set default เดือนปัจจุบัน
+      // ✅ กรองเฉพาะเดือนปัจจุบันเสมอ
       state.selectedMonth = '0';
-      $$('.month-btn').forEach(b => {
-        b.classList.remove('active');
-        b.style.background = 'white';
-        b.style.color = '#64748b';
-        b.style.borderColor = '#e2e8f0';
-      });
-      const currentMonthBtn = document.querySelector('.month-btn[data-month="0"]');
-      if (currentMonthBtn) {
-        currentMonthBtn.classList.add('active');
-        currentMonthBtn.style.background = '#6366F1';
-        currentMonthBtn.style.color = 'white';
-        currentMonthBtn.style.borderColor = '#6366F1';
-      }
 
       // ✅ เช็คว่ามีรายการใหม่ที่ต้องอัพเดทไหม
       const needUpdate = localStorage.getItem('crateInspectorNeedUpdate') === 'true';
